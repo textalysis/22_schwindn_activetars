@@ -21,12 +21,12 @@ class ExpectedGradientLength(ActiveLearner):
         batch_loader = flair.datasets.DataLoader(
                 self.basecorpus.train,
                 batch_size=1,
-                shuffle=False,  # never shuffle the first epoch
+                shuffle=False,
                 num_workers=None,
                 sampler=None,
             )
         for TrueLabelSentence in batch_loader:
-            batch=[]
+            batch = []
             NoLabelSentence = TrueLabelSentence[0].to_plain_string()
             for label in self.CorpusLabels:
                 sentence = Sentence(NoLabelSentence)
@@ -38,8 +38,8 @@ class ExpectedGradientLength(ActiveLearner):
             loss[0].backward()
             for p in DummyModel.parameters():
                 if p.grad is not None:
-                    param_norm = p.grad.detach().data.norm(2)
-                    total_norm += param_norm.item() ** 2
+                   param_norm = p.grad.detach().data.norm(2)
+                   total_norm += param_norm.item() ** 2
             total_norm = total_norm ** 0.5
             ExpectedGradientLenghtForSentence[batch[0].to_plain_string()] = total_norm
         for key in ExpectedGradientLenghtForSentence.keys():

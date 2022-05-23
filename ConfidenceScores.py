@@ -1,10 +1,12 @@
 from ActiveLearner import ActiveLearner
+from flair.data import Sentence
 import numpy as np
 
 #Chooses NumberOfElements Elements according to Confidence Scores algorithm from unused trainingdata in basecorpus
 class ConfidenceScores(ActiveLearner):
     def SelectData(self, NumberOfElements: int):
-        classifiedCorpus = self.classifyCorpus(self.basecorpus.train)
+        classifiedCorpus = [Sentence(data.to_plain_string()) for data in self.basecorpus.train]
+        self.TARS.predict_zero_shot(classifiedCorpus, self.CorpusLabels, multi_label=True)
         SentenceScoresAndIndex = []
         SentenceIndex = 0
         for sentence in classifiedCorpus:
