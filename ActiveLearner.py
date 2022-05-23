@@ -20,8 +20,13 @@ class ActiveLearner:
         self.LabelType = LabelType
         self.LabelDict = self.basecorpus.make_label_dictionary(label_type = self.LabelType)
         self.CorpusLabels = self.LabelDict.get_items()
+        self.CorpusLabels.remove('<unk>')
         self.task = task
         self.multilabel = multilabel
+        self.TARS.add_and_switch_to_new_task(task_name=self.task,
+                                             label_dictionary=self.LabelDict,
+                                             label_type=self.LabelType,
+                                             )
 
     #Classifies a dataset
     def classifyCorpus(self, dataset: Dataset):
@@ -37,9 +42,6 @@ class ActiveLearner:
         for sentence, data in zip(PredictedSentences, self.basecorpus.dev):
             maxlabel = [label for label in sentence.labels if
                         label.score == max([label.score for label in sentence.labels])]
-            print(sentence)
-            print(maxlabel)
-            print(data)
             try:
                 if maxlabel[0].value != data.labels[0].value or maxlabel == []:
                     TotalPredictions += 1
@@ -60,7 +62,7 @@ class ActiveLearner:
         ):
         downsampledCorpus = copy.deepcopy(self.basecorpus)
         if DownsampleTrainSet and downsampledCorpus._train is not None:
-            downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, IndicesToKeep)[0]
+            downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, IndicesToKeep)
         if DownsampleDevSet and downsampledCorpus._train is not None:
             downsampledCorpus._dev = downsampledCorpus._downsample_to_proportion(downsampledCorpus._dev, 0.1*(len(IndicesToKeep))/_len_dataset(downsampledCorpus._dev))
         if DownsampleTestSet and downsampledCorpus._train is not None:
@@ -75,9 +77,9 @@ class ActiveLearner:
         IndicesToKeep: list = [] ,
         ):
         IndicesToKeep.sort()
-        IndicesToRemove = [i for i in range(len(dataset)) if i not in IndicesToKeep].sort()
+        #IndicesToRemove = [i for i in range(len(dataset)) if i not in IndicesToKeep].sort()
 
-        return Subset(dataset, IndicesToKeep), Subset(dataset, IndicesToRemove)
+        return Subset(dataset, IndicesToKeep)#, Subset(dataset, IndicesToRemove)
 
     #Trains the TARS model with the current Train Corpus, provided by the active learning strategy
     def trainTARS(self,path: str = 'resources/taggers/trec'):

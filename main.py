@@ -1,4 +1,3 @@
-import copy
 import flair.datasets
 from flair.models import TARSClassifier
 from Definitions import label_name_map_50
@@ -11,18 +10,17 @@ import CoreSet as Core
 #Run experiment with seedset
 
 #Initialize Models
-TARS = TARSClassifier.load('tars-base')
-TARS_Random = copy.deepcopy(TARS)
-TARS_ConfidenceScores = copy.deepcopy(TARS)
-TARS_ExpectedGradientLength = copy.deepcopy(TARS)
-TARS_CoreSet = copy.deepcopy(TARS)
+TARS_Random = TARSClassifier.load('tars-base')
+TARS_ConfidenceScores = TARSClassifier.load('tars-base')
+TARS_ExpectedGradientLength = TARSClassifier.load('tars-base')
+TARS_CoreSet = TARSClassifier.load('tars-base')
 
 #Initialize Corpora
-TREC_50 = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(0.02)
-TREC_Random = copy.deepcopy(TREC_50)
-TREC_ConfidenceScores = copy.deepcopy(TREC_50)
-TREC_ExpectedGradientLength = copy.deepcopy(TREC_50)
-TREC_CoreSet = copy.deepcopy(TREC_50)
+sample_value = 1
+TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 
 #Initialize ActiveLearners
 Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
@@ -30,12 +28,16 @@ ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = 
 ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
 CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet)
 
-TrainSetSize = 10
+TrainSetSize = 100
 BaseAccuracy = Random.evaluateModel()
 RandomAccuracy_seed = [BaseAccuracy]
 ConfidenceScoresAccuracy_seed = [BaseAccuracy]
 ExpectedGradientLengthAccuracy_seed = [BaseAccuracy]
 CoreSetAccuracy_seed = [BaseAccuracy]
+print(BaseAccuracy)
+print(Random.CorpusLabels)
+
+
 
 Random.SelectData(TrainSetSize)
 Random.trainTARS(path = 'resources/taggers/Random')
@@ -49,7 +51,7 @@ ExpectedGradientLengthAccuracy_seed.append(ExpectedGradientLength.evaluateModel(
 CoreSet.SelectRandomData(TrainSetSize)
 CoreSet.trainTARS(path = 'resources/taggers/CoreSet')
 CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
-TrainSetSize = 10
+TrainSetSize = 100
 print('Random Accuracy:')
 print(RandomAccuracy_seed)
 print('ConfidenceScores Accuracy:')
@@ -58,7 +60,6 @@ print('ExpectedGradientLength Accuracy:')
 print(ExpectedGradientLengthAccuracy_seed)
 print('CoreSet Accuracy:')
 print(CoreSetAccuracy_seed)
-
 for i in range(5):
     Random.SelectData(TrainSetSize)
     Random.trainTARS(path = 'resources/taggers/Random')
@@ -82,19 +83,21 @@ for i in range(5):
     print('CoreSet Accuracy:')
     print(CoreSetAccuracy_seed)
 
+
 #Run experiments without seedset
 
 #Initialize Models
-TARS_Random = copy.deepcopy(TARS)
-TARS_ConfidenceScores = copy.deepcopy(TARS)
-TARS_ExpectedGradientLength = copy.deepcopy(TARS)
-TARS_CoreSet = copy.deepcopy(TARS)
+TARS_Random = TARSClassifier.load('tars-base')
+TARS_ConfidenceScores = TARSClassifier.load('tars-base')
+TARS_ExpectedGradientLength = TARSClassifier.load('tars-base')
+TARS_CoreSet = TARSClassifier.load('tars-base')
 
 #Initialize Corpora
-TREC_Random = copy.deepcopy(TREC_50)
-TREC_ConfidenceScores = copy.deepcopy(TREC_50)
-TREC_ExpectedGradientLength = copy.deepcopy(TREC_50)
-TREC_CoreSet = copy.deepcopy(TREC_50)
+sample_value = 1
+TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 
 #Initialize ActiveLearners
 Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
