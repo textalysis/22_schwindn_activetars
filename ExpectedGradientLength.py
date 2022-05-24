@@ -25,6 +25,8 @@ class ExpectedGradientLength(ActiveLearner):
                 num_workers=None,
                 sampler=None,
             )
+        DummyModel = copy.deepcopy(self.TARS)
+        i = 0
         for TrueLabelSentence in batch_loader:
             batch = []
             NoLabelSentence = TrueLabelSentence[0].to_plain_string()
@@ -33,14 +35,17 @@ class ExpectedGradientLength(ActiveLearner):
                 sentence.add_label(typename= self.LabelType, value=label)
                 batch.append(sentence)
             total_norm = 0
-            DummyModel = copy.deepcopy(self.TARS)
+            #DummyModel = copy.deepcopy(self.TARS)
             loss = DummyModel.forward_loss(batch)
             loss[0].backward()
             for p in DummyModel.parameters():
                 if p.grad is not None:
                    param_norm = p.grad.detach().data.norm(2)
                    total_norm += param_norm.item() ** 2
+                   p.grad.data.zero_()
             total_norm = total_norm ** 0.5
+            print(f'Calculating Gradient for datapoint {i}')
+            i+=1
             ExpectedGradientLenghtForSentence[batch[0].to_plain_string()] = total_norm
         for key in ExpectedGradientLenghtForSentence.keys():
             IndexAndGradientTupleList.append((DataToIndex[key], ExpectedGradientLenghtForSentence[key]))

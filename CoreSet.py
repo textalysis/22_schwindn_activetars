@@ -20,6 +20,7 @@ class CoreSet(ActiveLearner):
 
         distance = lambda embedding1, embedding2: math.sqrt(
             sum([(embedding1[i] - embedding2[i]) ** 2 for i in range(len(embedding1))]))
+        print('Core Set: building distance matrix')
         DistanceMatrix = np.asarray(
             [[distance(embedding1, embedding2) for embedding2 in encodings_np] for embedding1 in encodings_np])
         startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
@@ -32,6 +33,7 @@ class CoreSet(ActiveLearner):
         chosenDataPoints = [StartPoint]
         ValuesForIndices = {}
         while len(chosenDataPoints) < NumberOfElements:
+            print(f'Core Set: {str(len(chosenDataPoints))} training data found')
             for j in [j for j in range(len(DistanceMatrix[0])) if (j not in chosenDataPoints) and (j not in self.UsedIndices)]:
                 ValuesForIndices[min(DistanceMatrix[:, j].take(chosenDataPoints))] = j
             chosenDataPoints.append(ValuesForIndices[max(ValuesForIndices.keys())])
