@@ -38,8 +38,8 @@ class ActiveLearner:
     def evaluateModel(self):
         AccuratePredictions = 0
         TotalPredictions = 0
-        PredictedSentences = self.classifyCorpus(self.basecorpus.dev)
-        for sentence, data in zip(PredictedSentences, self.basecorpus.dev):
+        PredictedSentences = self.classifyCorpus(self.basecorpus.test)
+        for sentence, data in zip(PredictedSentences, self.basecorpus.test):
             maxlabel = [label for label in sentence.labels if
                         label.score == max([label.score for label in sentence.labels])]
             try:
