@@ -1,3 +1,4 @@
+import flair, torch
 import flair.datasets
 from flair.models import TARSClassifier
 from Definitions import label_name_map_50
@@ -10,6 +11,9 @@ import CoreSet as Core
 def write(name, contents):
     with open(name, 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
+
+
+flair.device = torch.device('cuda:1')
 
 #Run experiment with seedset
 lines = []
