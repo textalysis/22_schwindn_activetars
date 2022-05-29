@@ -51,7 +51,11 @@ class CoreSet(ActiveLearner):
         while len(chosenDataPoints) < NumberOfElements:
             print(f'Core Set: {str(len(chosenDataPoints))} training data found')
             for j in [j for j in range(len(DistanceMatrix[0])) if (j not in chosenDataPoints) and (j not in self.UsedIndices)]:
-                ValuesForIndices[min(DistanceMatrix[:, j].take(torch.tensor(chosenDataPoints, device = self.device)))] = j
+                print(DistanceMatrix[:, j])
+                ValuesForIndices[torch.min(DistanceMatrix[:, j].take(torch.tensor(chosenDataPoints, device = self.device)))] = j
+            print(ValuesForIndices)
+            print(max(ValuesForIndices.keys()))
             chosenDataPoints.append(ValuesForIndices[max(ValuesForIndices.keys())])
+            print(chosenDataPoints)
             ValuesForIndices = {}
         return chosenDataPoints
