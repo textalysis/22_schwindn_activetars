@@ -1,3 +1,4 @@
+import flair, torch
 import flair.datasets
 from flair.models import TARSClassifier
 from Definitions import label_name_map_50
@@ -8,9 +9,10 @@ import CoreSet as Core
 
 
 def write(name, contents):
-    with open(name, 'w', encoding='utf-8') as f:
+    with open('results_ConfScor_withoutseedset.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
 
+flair.device = torch.device('cuda:0')
 #Run experiment with seedset
 lines = []
 #Initialize Models
@@ -32,7 +34,7 @@ ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = 
 #ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
 #CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet)
 
-TrainSetSize = 100
+TrainSetSize = 50
 BaseAccuracy = Random.evaluateModel()
 RandomAccuracy_seed = [BaseAccuracy]
 ConfidenceScoresAccuracy_seed = [BaseAccuracy]
@@ -52,29 +54,29 @@ write('results.txt', lines)
 
 
 
-Random.SelectData(TrainSetSize)
-Random.trainTARS(path = 'resources/taggers/Random')
-RandomAccuracy_seed.append(Random.evaluateModel())
-ConfidenceScores.SelectRandomData(TrainSetSize)
-ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores')
-ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
+#Random.SelectData(TrainSetSize)
+#Random.trainTARS(path = 'resources/taggers/Random')
+#RandomAccuracy_seed.append(Random.evaluateModel())
+#ConfidenceScores.SelectRandomData(TrainSetSize)
+#ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores')
+#ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
 #ExpectedGradientLength.SelectRandomData(TrainSetSize)
 #ExpectedGradientLength.trainTARS(path = 'resources/taggers/ExpectedGradientLength')
 #ExpectedGradientLengthAccuracy_seed.append(ExpectedGradientLength.evaluateModel())
 #CoreSet.SelectRandomData(TrainSetSize)
 #CoreSet.trainTARS(path = 'resources/taggers/CoreSet')
 #CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
-TrainSetSize = 50
-lines.append('Ran seed set training:')
-lines.append('Random Accuracy:')
-lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
-lines.append('ConfidenceScores Accuracy:')
-lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
+#TrainSetSize = 50
+#lines.append('Ran seed set training:')
+#lines.append('Random Accuracy:')
+#lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
+#lines.append('ConfidenceScores Accuracy:')
+#lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
 #lines.append('ExpectedGradientLength Accuracy:')
 #lines.append(' '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
 #lines.append('CoreSet Accuracy:')
 #lines.append(' '.join(str(e) for e in CoreSetAccuracy_seed))
-write('results.txt', lines)
+#write('results.txt', lines)
 for i in range(10):
     Random.SelectData(TrainSetSize)
     Random.trainTARS(path = 'resources/taggers/Random')
