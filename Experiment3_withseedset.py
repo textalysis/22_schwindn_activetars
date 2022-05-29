@@ -13,7 +13,7 @@ def write(name, contents):
         f.write('\n'.join(contents))
 
 
-flair.device = torch.device('cpu')
+flair.device = torch.device('cuda0')
 
 #Run experiment with seedset
 lines = []
@@ -34,7 +34,7 @@ TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsamp
 #Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
 #ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores)
 #ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
-CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet)
+CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = 'cuda:0')
 
 TrainSetSize = 100
 BaseAccuracy = CoreSet.evaluateModel()
