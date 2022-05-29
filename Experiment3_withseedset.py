@@ -13,7 +13,7 @@ def write(name, contents):
         f.write('\n'.join(contents))
 
 
-flair.device = torch.device('cuda:0')
+flair.device = torch.device('cpu')
 
 #Run experiment with seedset
 lines = []
@@ -64,7 +64,7 @@ write('results_EGL2.txt', lines)
 #ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
 CoreSet.SelectRandomData(TrainSetSize)
 CoreSet.trainTARS(path = 'resources/taggers/ExpectedGradientLength2')
-ExpectedGradientLengthAccuracy_seed.append(CoreSet.evaluateModel())
+CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
 #CoreSet.SelectRandomData(TrainSetSize)
 #CoreSet.trainTARS(path = 'resources/taggers/CoreSet')
 #CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
@@ -88,7 +88,7 @@ for i in range(10):
     #ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
     CoreSet.SelectData(TrainSetSize)
     CoreSet.trainTARS(path = 'resources/taggers/CoreSet')
-    ExpectedGradientLengthAccuracy_seed.append(CoreSet.evaluateModel())
+    CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
     #CoreSet.SelectData(TrainSetSize)
     #CoreSet.trainTARS(path = 'resources/taggers/CoreSet')
     #CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
