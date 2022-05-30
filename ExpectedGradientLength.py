@@ -48,9 +48,12 @@ class ExpectedGradientLength(ActiveLearner):
             i+=1
             ExpectedGradientLenghtForSentence[batch[0].to_plain_string()] = total_norm
         for key in ExpectedGradientLenghtForSentence.keys():
-            IndexAndGradientTupleList.append((DataToIndex[key], ExpectedGradientLenghtForSentence[key]))
-        IndexAndGradientTupleList_sorted = sorted(IndexAndGradientTupleList, key=lambda tup: -tup[1])
-        IndexAndGradientTupleList_sorted = [i for i in IndexAndGradientTupleList_sorted if i[0] not in self.UsedIndices]
+            IndexAndGradientTupleList.append((DataToIndex[key],
+                                              ExpectedGradientLenghtForSentence[key]))
+        IndexAndGradientTupleList_sorted = sorted(IndexAndGradientTupleList,
+                                                  key=lambda tup: -tup[1])
+        IndexAndGradientTupleList_sorted = [i for i in IndexAndGradientTupleList_sorted
+                                            if i[0] not in self.UsedIndices]
         SelectedIndices = [i[0] for i in IndexAndGradientTupleList_sorted[:NumberOfElements]]
         self.UsedIndices.extend(SelectedIndices)
         return self.downsampleCorpus(IndicesToKeep = SelectedIndices)

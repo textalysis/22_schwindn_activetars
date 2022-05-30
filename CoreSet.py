@@ -28,17 +28,6 @@ class CoreSet(ActiveLearner):
         encodings_np = torch.tensor(encodings_np,device = self.device)
         if self.DistanceMatrix == []:
             self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
-        print(self.DistanceMatrix)
-        #if True:
-        #    distance = lambda embedding1, embedding2: math.sqrt(
-        #        sum([(embedding1[i] - embedding2[i]) ** 2 for i in range(len(embedding1))]))
-        #    self.distancematrix = distance
-        #    print('Core Set: building distance matrix')
-        #    #DistanceMatrix = np.asarray(
-        #      #  [[distance(embedding1, embedding2) for embedding2 in encodings_np] for embedding1 in encodings_np])
-        #    DistanceMatrix = np.asarray(
-        #        [[distance(embedding1, embedding2) for embedding2 in encodings_np] for embedding1 in encodings_np])
-        #    print(DistanceMatrix)
         startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
         SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
         self.UsedIndices.extend(SelectedIndices)
@@ -51,11 +40,7 @@ class CoreSet(ActiveLearner):
         while len(chosenDataPoints) < NumberOfElements:
             print(f'Core Set: {str(len(chosenDataPoints))} training data found')
             for j in [j for j in range(len(DistanceMatrix[0])) if (j not in chosenDataPoints) and (j not in self.UsedIndices)]:
-                print(DistanceMatrix[:, j])
                 ValuesForIndices[torch.min(DistanceMatrix[:, j].take(torch.tensor(chosenDataPoints, device = self.device)))] = j
-            print(ValuesForIndices)
-            print(max(ValuesForIndices.keys()))
             chosenDataPoints.append(ValuesForIndices[max(ValuesForIndices.keys())])
-            print(chosenDataPoints)
             ValuesForIndices = {}
         return chosenDataPoints
