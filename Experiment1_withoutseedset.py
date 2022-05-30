@@ -9,7 +9,7 @@ import CoreSet as Core
 
 
 def write(name, contents):
-    with open('results_ConfScor_withoutseedset_2.txt', 'w', encoding='utf-8') as f:
+    with open('results_ConfScor_withoutseedset_3.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
 
 flair.device = torch.device('cuda:1')
