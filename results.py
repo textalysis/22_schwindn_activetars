@@ -7,7 +7,7 @@ Results = {'Rand':
                 'Exp1noseed': [0.228, 0.382, 0.58, 0.634, 0.684, 0.646, 0.708, 0.69, 0.698, 0.702, 0.624] ,
                 'Exp2noseed': [0.228, 0.302, 0.422, 0.506, 0.604, 0.702, 0.708, 0.678, 0.528, 0.514, 0.714],
                 'Exp3noseed': [0.228, 0.566, 0.506, 0.616, 0.67, 0.656, 0.666, 0.7, 0.694, 0.68, 0.68]  },
-            'ConfScores':
+            'ConfScor':
                 {'Exp1seed': [0.228, 0.428, 0.494, 0.418, 0.406, 0.432, 0.468, 0.708, 0.616, 0.68, 0.702, 0.478],
                 'Exp2seed': [0.228, 0.608, 0.7, 0.386, 0.5, 0.436, 0.498, 0.622, 0.462, 0.494, 0.452, 0.47],
                 'Exp3seed': [0.228, 0.492, 0.42, 0.632, 0.618, 0.634, 0.576, 0.636, 0.748, 0.63, 0.74, 0.754],
@@ -29,5 +29,33 @@ Results = {'Rand':
                 'Exp2noseed': [0.228, 0.31, 0.334, 0.412, 0.616, 0.626, 0.618, 0.56, 0.5, 0.492, 0.644],
                 'Exp3noseed': [0.228, 0.33, 0.37, 0.422, 0.448, 0.454, 0.44, 0.47, 0.468, 0.482, 0.488]  } }
 
-print(Results)
+Averages = {}
+for Alg in ['Rand', 'ConfScor', 'ExpGrad', 'CoreSet']:
+    isitseed = {}
+    for isSeed in ['seed', 'noseed']:
+        list = []
+        for i, el in enumerate(Results[Alg][f'Exp1{isSeed}']):
+            list.append((Results[Alg][f'Exp1{isSeed}'][i]+Results[Alg][f'Exp2{isSeed}'][i]+Results[Alg][f'Exp2{isSeed}'][i])/3)
+        isitseed[isSeed] = list
+    Averages[Alg] = isitseed
+
+print(Averages)
+
+
+
+NoSeedActiveAvg = []
+SeedActiveAvg = []
+for i in range(11):
+    NoSeedActiveAvg.append((Averages['ConfScor']['noseed'][i]+Averages['CoreSet']['noseed'][i]+Averages['ExpGrad']['noseed'][i])/3)
+for i in range(12):
+    SeedActiveAvg.append((Averages['ConfScor']['seed'][i]+Averages['CoreSet']['seed'][i]+Averages['ExpGrad']['seed'][i])/3)
+
+from matplotlib import pyplot as plt
+plt.plot(range(11), Averages['Rand']['noseed'], label = 'Random without seed')
+plt.plot(range(11), Results['Rand']['Exp1noseed'], label = 'First training run Random without seed')
+plt.plot(range(11), Results['Rand']['Exp2noseed'], label = 'Second training run Random without seed')
+plt.plot(range(11), Results['Rand']['Exp3noseed'], label = 'Third training run Random without seed')
+plt.legend()
+plt.show()
+
 

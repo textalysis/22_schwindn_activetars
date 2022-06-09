@@ -13,7 +13,7 @@ def write(name, contents):
         f.write('\n'.join(contents))
 
 
-flair.device = torch.device('cuda:2')
+flair.device = torch.device('cpu')
 
 #Run experiment with seedset
 lines = []
@@ -29,7 +29,8 @@ sample_value = 1
 #TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 #TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-
+print(len(TREC_ExpectedGradientLength.test))
+lol-100
 #Initialize ActiveLearners
 #Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
 #ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores)
