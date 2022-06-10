@@ -127,7 +127,7 @@ class ActiveLearner:
          4805, 349, 1942, 3239, 4132, 3677, 4511, 3447, 1533, 2580, 833, 3753, 854, 1760, 676, 322, 1421, 1788, 1836,
          1546, 341, 311, 516, 2204]
         RandomSeedIndices_dev = [322, 529, 485, 73, 382, 440, 502, 131, 411, 460]
-        RandomSeedIndices_test = [508, 5, 3509, 1837, 3411, 973, 3081, 3813, 221, 825]
+        RandomSeedIndices_test = [148, 246, 217, 220, 40, 269, 230, 479, 349, 66]
         downsampledCorpus = copy.deepcopy(self.basecorpus)
         downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_train)
         downsampledCorpus._dev = self.splitDataset(downsampledCorpus._dev, RandomSeedIndices_dev)
