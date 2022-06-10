@@ -132,7 +132,7 @@ class ActiveLearner:
         downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_train)
         downsampledCorpus._dev = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_dev)
         downsampledCorpus._test = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_test)
-        self.UsedIndices.append(RandomSeedIndices_train)
+        self.UsedIndices.extend(RandomSeedIndices_train)
         self.currentTrainCorpus = downsampledCorpus
         return downsampledCorpus
 
