@@ -130,8 +130,8 @@ class ActiveLearner:
         RandomSeedIndices_test = [508, 5, 3509, 1837, 3411, 973, 3081, 3813, 221, 825]
         downsampledCorpus = copy.deepcopy(self.basecorpus)
         downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_train)
-        downsampledCorpus._dev = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_dev)
-        downsampledCorpus._test = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_test)
+        downsampledCorpus._dev = self.splitDataset(downsampledCorpus._dev, RandomSeedIndices_dev)
+        downsampledCorpus._test = self.splitDataset(downsampledCorpus._test, RandomSeedIndices_test)
         self.UsedIndices.extend(RandomSeedIndices_train)
         self.currentTrainCorpus = downsampledCorpus
         return downsampledCorpus
