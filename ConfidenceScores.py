@@ -26,6 +26,6 @@ class ConfidenceScores(ActiveLearner):
         Selections = SentenceScoresAndIndex_sorted[:NumberOfElements]
         SelectedIndices = [i[1] for i in Selections]
         self.UsedIndices.extend(SelectedIndices)
-        return self.downsampleCorpus(IndicesToKeep = SelectedIndices)
+        return self.downsampleCorpus(IndicesToKeep = self.UsedIndices)
 
 

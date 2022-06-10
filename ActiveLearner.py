@@ -16,13 +16,17 @@ class ActiveLearner:
         self.basecorpus = corpus
         self.TARS = TARS
         self.UsedIndices = []
-        self.currentTrainCorpus = copy.deepcopy(self.basecorpus)
+        self.currentTrainCorpus = []
         self.LabelType = LabelType
         self.LabelDict = self.basecorpus.make_label_dictionary(label_type = self.LabelType)
         self.CorpusLabels = self.LabelDict.get_items()
         self.CorpusLabels.remove('<unk>')
         self.task = task
         self.multilabel = multilabel
+        self.learning_rate = 0.02
+        self.mini_batch_size = 16
+        self.mini_batch_chunk_size = 4
+        self.max_epochs = 20
         self.TARS.add_and_switch_to_new_task(task_name=self.task,
                                              label_dictionary=self.LabelDict,
                                              label_type=self.LabelType,
@@ -83,19 +87,23 @@ class ActiveLearner:
 
     #Trains the TARS model with the current Train Corpus, provided by the active learning strategy
     def trainTARS(self,path: str = 'resources/taggers/trec'):
-        self.TARS.add_and_switch_to_new_task(task_name=self.task,
-                                             label_dictionary=self.LabelDict,
-                                             label_type=self.LabelType,
-                                             )
 
-        trainer = ModelTrainer(self.TARS, self.currentTrainCorpus)
+        TARS = TARSClassifier.load('tars-base')
+
+        TARS.add_and_switch_to_new_task(task_name=self.task,
+                                        label_dictionary=self.LabelDict,
+                                        label_type=self.LabelType,
+                                        )
+
+        trainer = ModelTrainer(TARS, self.currentTrainCorpus)
 
         trainer.train(base_path=path,  # path to store the model artifacts
-                      learning_rate=0.02,  # use very small learning rate
-                      mini_batch_size=16,
-                      mini_batch_chunk_size=4,  # optionally set this if transformer is too much for your machine
-                      max_epochs=10,  # terminate after 10 epochs
+                      learning_rate=self.learning_rate,  # use very small learning rate
+                      mini_batch_size=self.mini_batch_size,
+                      mini_batch_chunk_size=self.mini_batch_chunk_size,  # optionally set this if transformer is too much for your machine
+                      max_epochs=self.max_epochs,  # terminate after 20 epochs
                       )
+        self.TARS = TARS
 
         return self.TARS
 
@@ -104,12 +112,33 @@ class ActiveLearner:
         selectableIndices = [i for i in list(range(len(self.basecorpus.train))) if i not in self.UsedIndices]
         randomIndices = random.sample(selectableIndices, NumberOfElements)
         self.UsedIndices.extend(randomIndices)
-        return self.downsampleCorpus(IndicesToKeep = randomIndices)
+        return self.downsampleCorpus(IndicesToKeep = self.UsedIndices)
 
     #Prints the data that is selected by the active learning strategy
     def printCurrentTrainingData(self):
         print('The current Trainingdata is:')
         print([trainingdata for trainingdata in self.currentTrainCorpus.train])
+
+    def setSeedSet(self):
+        RandomSeedIndices_train = [1466, 3676, 4287, 346, 4520, 847, 2974, 1354, 1531, 2538, 2834, 2208, 1321, 4340, 2079, 3770, 3152, 4853, 2811,
+         4109, 642, 90, 177, 3710, 3853, 2800, 3171, 4361, 3672, 2401, 705, 2410, 3225, 3172, 4341, 3810, 4108, 474,
+         176, 1051, 814, 3821, 4023, 124, 2446, 451, 1223, 2203, 4442, 2372, 1201, 2703, 2312, 3021, 2753, 1200, 2347,
+         3117, 3690, 3716, 3355, 261, 889, 3922, 1675, 3106, 411, 3167, 1401, 1383, 3227, 2326, 3562, 3104, 482, 3459,
+         4805, 349, 1942, 3239, 4132, 3677, 4511, 3447, 1533, 2580, 833, 3753, 854, 1760, 676, 322, 1421, 1788, 1836,
+         1546, 341, 311, 516, 2204]
+        RandomSeedIndices_dev = [322, 529, 485, 73, 382, 440, 502, 131, 411, 460]
+        RandomSeedIndices_test = [508, 5, 3509, 1837, 3411, 973, 3081, 3813, 221, 825]
+        downsampledCorpus = copy.deepcopy(self.basecorpus)
+        downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_train)
+        downsampledCorpus._dev = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_dev)
+        downsampledCorpus._test = self.splitDataset(downsampledCorpus._train, RandomSeedIndices_test)
+        self.UsedIndices.append(RandomSeedIndices_train)
+        self.currentTrainCorpus = downsampledCorpus
+        return downsampledCorpus
+
+
+
+
 
 
 
