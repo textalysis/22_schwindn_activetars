@@ -9,10 +9,10 @@ import CoreSet as Core
 
 
 def write(name, contents):
-    with open('results_ConfScor_withseedset2.txt', 'w', encoding='utf-8') as f:
+    with open('results_ConfScor_withseedset3.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
 
-flair.device = torch.device('cuda:0')
+flair.device = torch.device('cuda:1')
 #Run experiment with seedset
 lines = []
 #Initialize Models
@@ -54,8 +54,8 @@ write('results.txt', lines)
 
 Random.setSeedSet()
 ConfidenceScores.setSeedSet()
-Random.trainTARS('resources/taggers/Random')
-ConfidenceScores.trainTARS('resources/taggers/ConfidenceScores')
+Random.trainTARS('resources/taggers/Random2')
+ConfidenceScores.trainTARS('resources/taggers/ConfidenceScores2')
 Random.evaluateModel()
 ConfidenceScores.evaluateModel()
 
@@ -95,10 +95,10 @@ write('results.txt', lines)
 #write('results.txt', lines)
 for i in range(10):
     Random.SelectData(TrainSetSize)
-    Random.trainTARS(path = 'resources/taggers/Random')
+    Random.trainTARS(path = 'resources/taggers/Random2')
     RandomAccuracy_seed.append(Random.evaluateModel())
     ConfidenceScores.SelectData(TrainSetSize)
-    ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores')
+    ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores2')
     ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
    # ExpectedGradientLength.SelectData(TrainSetSize)
     #ExpectedGradientLength.trainTARS(path = 'resources/taggers/ExpectedGradientLength')
