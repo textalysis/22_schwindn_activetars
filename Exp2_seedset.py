@@ -9,63 +9,66 @@ import CoreSet as Core
 
 
 def write(name, contents):
-    with open('results_ConfScor_withseedset2.txt', 'w', encoding='utf-8') as f:
+    with open('results_ExpGrad_withseedset.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
 
 flair.device = torch.device('cuda:0')
 #Run experiment with seedset
 lines = []
 #Initialize Models
-TARS_Random = TARSClassifier.load('tars-base')
-TARS_ConfidenceScores = TARSClassifier.load('tars-base')
-#TARS_ExpectedGradientLength = TARSClassifier.load('tars-base')
+#TARS_Random = TARSClassifier.load('tars-base')
+#TARS_ConfidenceScores = TARSClassifier.load('tars-base')
+TARS_ExpectedGradientLength = TARSClassifier.load('tars-base')
 #TARS_CoreSet = TARSClassifier.load('tars-base')
 
 #Initialize Corpora
 sample_value = 1
-TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-#TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+#TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+#TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 #TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 
 #Initialize ActiveLearners
-Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
-ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores)
-#ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
+#Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
+#ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores)
+ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
 #CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet)
 
 TrainSetSize = 50
-BaseAccuracy = Random.evaluateModel()
+BaseAccuracy = ExpectedGradientLength.evaluateModel()
 RandomAccuracy_seed = [BaseAccuracy]
 ConfidenceScoresAccuracy_seed = [BaseAccuracy]
 ExpectedGradientLengthAccuracy_seed = [BaseAccuracy]
 CoreSetAccuracy_seed = [BaseAccuracy]
 
 lines.append('Initialized Models:')
-lines.append('Random Accuracy:')
-lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
-lines.append('ConfidenceScores Accuracy:')
-lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
-#lines.append('ExpectedGradientLength Accuracy:')
-#lines.append(' '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
+#lines.append('Random Accuracy:')
+#lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
+#lines.append('ConfidenceScores Accuracy:')
+#lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
+lines.append('ExpectedGradientLength Accuracy:')
+lines.append(' '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
 #lines.append('CoreSet Accuracy:')
 #lines.append(' '.join(str(e) for e in CoreSetAccuracy_seed))
 write('results.txt', lines)
 
-Random.setSeedSet()
-ConfidenceScores.setSeedSet()
-Random.trainTARS('resources/taggers/Random')
-ConfidenceScores.trainTARS('resources/taggers/ConfidenceScores')
-RandomAccuracy_seed.append(Random.evaluateModel())
-ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
+#Random.setSeedSet()
+#ConfidenceScores.setSeedSet()
+#Random.trainTARS('resources/taggers/Random2')
+#ConfidenceScores.trainTARS('resources/taggers/ConfidenceScores2')
+#Random.evaluateModel()
+#ConfidenceScores.evaluateModel()
+ExpectedGradientLength.setSeedSet()
+ExpectedGradientLength.trainTARS('resources/taggers/ExpectedGradientLength')
+ExpectedGradientLength.evaluateModel()
 
 lines.append('Finished Seed Training')
-lines.append('Random Accuracy:')
-lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
-lines.append('ConfidenceScores Accuracy:')
-lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
-#lines.append('ExpectedGradientLength Accuracy:')
-#lines.append(' '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
+#lines.append('Random Accuracy:')
+#lines.append(' '.join(str(e) for e in RandomAccuracy_seed))
+#lines.append('ConfidenceScores Accuracy:')
+#lines.append(' '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
+lines.append('ExpectedGradientLength Accuracy:')
+lines.append(' '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
 #lines.append('CoreSet Accuracy:')
 #lines.append(' '.join(str(e) for e in CoreSetAccuracy_seed))
 write('results.txt', lines)
@@ -95,10 +98,10 @@ write('results.txt', lines)
 #write('results.txt', lines)
 for i in range(10):
     Random.SelectData(TrainSetSize)
-    Random.trainTARS(path = 'resources/taggers/Random')
+    Random.trainTARS(path = 'resources/taggers/Random2')
     RandomAccuracy_seed.append(Random.evaluateModel())
     ConfidenceScores.SelectData(TrainSetSize)
-    ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores')
+    ConfidenceScores.trainTARS(path = 'resources/taggers/ConfidenceScores2')
     ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
    # ExpectedGradientLength.SelectData(TrainSetSize)
     #ExpectedGradientLength.trainTARS(path = 'resources/taggers/ExpectedGradientLength')
