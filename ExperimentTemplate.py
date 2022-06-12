@@ -7,12 +7,13 @@ import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
 
-filename_results = ''
-filename_model = ''
-filename_model2 = ''
+filename_results = 'Conf_NoShuffle_1.txt'
+filename_model = 'resources/taggers/Random'
+filename_model2 = 'resources/taggers/ConfidenceScores'
 device = 'cuda:0'
 SeedSet = True
-Exp = 2  #1,2 oder 3
+shuffle = False
+Exp = 1  #1,2 oder 3
 
 def write(name, contents):
     with open(filename_results, 'w', encoding='utf-8') as f:
@@ -42,12 +43,12 @@ elif Exp == 3:
 
 #Initialize ActiveLearners
 if Exp == 1:
-    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
-    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores)
+    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle)
+    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores, shuffle = shuffle)
 elif Exp == 2:
-    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength)
+    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle)
 elif Exp == 3:
-    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet)
+    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, shuffle = shuffle )
 
 TrainSetSize = 50
 if Exp == 1:
