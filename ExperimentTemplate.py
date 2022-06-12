@@ -8,9 +8,9 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 filename_results = 'CoreSet_NoShuffle_seedset_1.txt'
-filename_model = 'resources/taggers/CoreSet'
-filename_model2 = 'resources/taggers/ConfidenceScores2'
-device = 'cuda:2'
+filename_model = 'resources/taggers/Random'
+filename_model2 = 'resources/taggers/ConfidenceScores'
+device = 'cuda:0'
 SeedSet = True
 shuffle = False
 Exp = 3  #1,2 oder 3
