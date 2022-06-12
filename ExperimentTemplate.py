@@ -8,10 +8,10 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 flair.set_seed(100)
-filename_results = 'CoreSet_NoShuffle_seedset_1.txt'
-filename_model = 'resources/taggers/Random'
-filename_model2 = 'resources/taggers/ConfidenceScores'
-device = 'cuda:0'
+filename_results = 'CoreSet_NoShuffle_seedset_2.txt'
+filename_model = 'resources/taggers/Random1'
+filename_model2 = 'resources/taggers/ConfidenceScores1'
+device = 'cuda:1'
 SeedSet = True
 shuffle = False
 Exp = 1  #1,2 oder 3
