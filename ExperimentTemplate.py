@@ -13,7 +13,7 @@ filename_model2 = 'resources/taggers/ConfidenceScores'
 device = 'cuda:0'
 SeedSet = True
 shuffle = False
-Exp = 3  #1,2 oder 3
+Exp = 1  #1,2 oder 3
 
 def write(name, contents):
     with open(filename_results, 'w', encoding='utf-8') as f:
