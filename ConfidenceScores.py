@@ -5,6 +5,7 @@ import numpy as np
 #Chooses NumberOfElements Elements according to Confidence Scores algorithm from unused trainingdata in basecorpus
 class ConfidenceScores(ActiveLearner):
     def SelectData(self, NumberOfElements: int):
+        self.TARS.eval()
         classifiedCorpus = [Sentence(data.to_plain_string()) for
                             data in self.basecorpus.train]
         self.TARS.predict_zero_shot(classifiedCorpus,
@@ -26,6 +27,7 @@ class ConfidenceScores(ActiveLearner):
         Selections = SentenceScoresAndIndex_sorted[:NumberOfElements]
         SelectedIndices = [i[1] for i in Selections]
         self.UsedIndices.extend(SelectedIndices)
+        self.TARS.train()
         return self.downsampleCorpus(IndicesToKeep = self.UsedIndices)
 
 

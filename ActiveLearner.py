@@ -42,6 +42,7 @@ class ActiveLearner:
 
     #Evaluates the Model on the validation Dataset of the Corpus
     def evaluateModel(self):
+        self.TARS.eval()
         AccuratePredictions = 0
         TotalPredictions = 0
         PredictedSentences = self.classifyCorpus(self.basecorpus.test)
@@ -56,6 +57,7 @@ class ActiveLearner:
                     TotalPredictions += 1
             except:
                 TotalPredictions += 1
+        self.TARS.train()
         return AccuratePredictions / TotalPredictions
 
     #Downsamples the Corpus to only include data with given indices
