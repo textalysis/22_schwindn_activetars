@@ -40,6 +40,7 @@ class ExpectedGradientLength(ActiveLearner):
                           mini_batch_size=self.mini_batch_size,
                           mini_batch_chunk_size=self.mini_batch_chunk_size,  # optionally set this if transformer is too much for your machine
                           max_epochs=self.max_epochs,  # terminate after 20 epochs
+                          shuffle=self.shuffle,
                           )
 
         for i, TrueLabelSentence in enumerate(batch_loader):

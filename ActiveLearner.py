@@ -12,6 +12,7 @@ class ActiveLearner:
         LabelType: str = 'class',
         task: str = "question classification",
         multilabel: bool = False,
+        shuffle: bool = True,
         ):
         self.basecorpus = corpus
         self.TARS = TARS
@@ -27,6 +28,7 @@ class ActiveLearner:
         self.mini_batch_size = 16
         self.mini_batch_chunk_size = 4
         self.max_epochs = 20
+        self.shuffle = shuffle
         self.TARS.add_and_switch_to_new_task(task_name=self.task,
                                              label_dictionary=self.LabelDict,
                                              label_type=self.LabelType,
@@ -102,6 +104,7 @@ class ActiveLearner:
                       mini_batch_size=self.mini_batch_size,
                       mini_batch_chunk_size=self.mini_batch_chunk_size,  # optionally set this if transformer is too much for your machine
                       max_epochs=self.max_epochs,  # terminate after 20 epochs
+                      shuffle = self.shuffle
                       )
         self.TARS = TARS
 
