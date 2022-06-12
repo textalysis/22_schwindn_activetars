@@ -8,7 +8,7 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 flair.set_seed(100)
-filename_results = 'CoreSet_NoShuffle_seedset_2.txt'
+filename_results = 'ConfScores_NoShuffle_seedset_2.txt'
 filename_model = 'resources/taggers/Random1'
 filename_model2 = 'resources/taggers/ConfidenceScores1'
 device = 'cuda:1'
