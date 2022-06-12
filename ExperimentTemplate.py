@@ -48,7 +48,7 @@ if Exp == 1:
 elif Exp == 2:
     ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle)
 elif Exp == 3:
-    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, shuffle = shuffle )
+    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle)
 
 TrainSetSize = 50
 if Exp == 1:
