@@ -7,10 +7,10 @@ import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
 
-filename_results = 'Conf_NoShuffle_1.txt'
-filename_model = 'resources/taggers/Random'
-filename_model2 = 'resources/taggers/ConfidenceScores'
-device = 'cuda:0'
+filename_results = 'Conf_NoShuffle_2.txt'
+filename_model = 'resources/taggers/Random1'
+filename_model2 = 'resources/taggers/ConfidenceScores1'
+device = 'cuda:1'
 SeedSet = True
 shuffle = False
 Exp = 1  #1,2 oder 3
