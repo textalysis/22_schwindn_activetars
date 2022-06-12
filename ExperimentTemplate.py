@@ -7,13 +7,13 @@ import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
 
-filename_results = 'Conf_NoShuffle_2.txt'
-filename_model = 'resources/taggers/Random1'
-filename_model2 = 'resources/taggers/ConfidenceScores1'
-device = 'cuda:1'
+filename_results = 'CoreSet_NoShuffle_seedset_1.txt'
+filename_model = 'resources/taggers/CoreSet'
+filename_model2 = 'resources/taggers/ConfidenceScores2'
+device = 'cuda:2'
 SeedSet = True
 shuffle = False
-Exp = 1  #1,2 oder 3
+Exp = 3  #1,2 oder 3
 
 def write(name, contents):
     with open(filename_results, 'w', encoding='utf-8') as f:
