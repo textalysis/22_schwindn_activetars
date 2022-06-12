@@ -7,6 +7,7 @@ import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
 
+flair.set_seed(100)
 filename_results = 'CoreSet_NoShuffle_seedset_1.txt'
 filename_model = 'resources/taggers/Random'
 filename_model2 = 'resources/taggers/ConfidenceScores'
