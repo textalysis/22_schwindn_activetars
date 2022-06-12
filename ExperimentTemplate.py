@@ -81,7 +81,9 @@ write('results.txt', lines)
 if SeedSet:
     if Exp == 1:
         Random.setSeedSet()
+        Random.printCurrentTrainingData()
         ConfidenceScores.setSeedSet()
+        ConfidenceScores.printCurrentTrainingData()
         Random.trainTARS(filename_model)
         ConfidenceScores.trainTARS(filename_model2)
         RandomAccuracy_seed.append(Random.evaluateModel())
