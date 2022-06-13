@@ -34,13 +34,6 @@ class ExpectedGradientLength(ActiveLearner):
                                         )
         if self.currentTrainCorpus != []:
             trainer = ModelTrainer(DummyModel, self.currentTrainCorpus)
-            s = ''
-            if self.device == 'cuda:0':
-                s = '0'
-            elif self.device == 'cuda:1':
-                s = '1'
-            elif self.device == 'cuda:2':
-                s = '2'
             trainer.train(base_path=f'resources/taggers/DummyModel{s}',  # path to store the model artifacts
                           learning_rate=self.learning_rate,  # use very small learning rate
                           mini_batch_size=self.mini_batch_size,
