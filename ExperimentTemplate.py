@@ -8,13 +8,13 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScores_seedset_1.txt'
-filename_model = 'resources/taggers/Random'
-filename_model2 = 'resources/taggers/ConfidenceScores'
-device = 'cuda:0'
+filename_results = 'results_CoreSet_seedset_1.txt'
+filename_model = 'resources/taggers/CoreSet1'
+filename_model2 = 'resources/taggers/CoreSet1'
+device = 'cuda:1'
 SeedSet = True
 shuffle = True
-Exp = 1  #1,2 oder 3
+Exp = 3  #1,2 oder 3
 
 def write(name, contents):
     with open(filename_results, 'w', encoding='utf-8') as f:
