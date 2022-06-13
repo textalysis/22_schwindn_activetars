@@ -7,13 +7,13 @@ import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
 
-flair.set_seed(100)
-filename_results = 'ConfScores_NoShuffle_seedset_2.txt'
-filename_model = 'resources/taggers/Random1'
-filename_model2 = 'resources/taggers/ConfidenceScores1'
-device = 'cuda:1'
+#flair.set_seed(100)
+filename_results = 'ConfScores_seedset_1.txt'
+filename_model = 'resources/taggers/Random'
+filename_model2 = 'resources/taggers/ConfidenceScores'
+device = 'cuda:0'
 SeedSet = True
-shuffle = False
+shuffle = True
 Exp = 1  #1,2 oder 3
 
 def write(name, contents):
@@ -35,8 +35,8 @@ elif Exp == 3:
 #Initialize Corpora
 sample_value = 1
 if Exp == 1:
-    TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-    TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+    TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
+    TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
 elif Exp ==2:
     TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
 elif Exp == 3:
@@ -53,9 +53,10 @@ elif Exp == 3:
 
 TrainSetSize = 50
 if Exp == 1:
-    BaseAccuracy = Random.evaluateModel()
-    RandomAccuracy_seed = [BaseAccuracy]
-    ConfidenceScoresAccuracy_seed = [BaseAccuracy]
+    BaseAccuracy1 = Random.evaluateModel()
+    RandomAccuracy_seed = [BaseAccuracy1]
+    BaseAccuracy2 = ConfidenceScores.evaluateModel()
+    ConfidenceScoresAccuracy_seed = [BaseAccuracy2]
 elif Exp == 2:
     BaseAccuracy = ExpectedGradientLength.evaluateModel()
     ExpectedGradientLengthAccuracy_seed = [BaseAccuracy]
