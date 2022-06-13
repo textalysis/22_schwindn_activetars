@@ -34,7 +34,7 @@ class ExpectedGradientLength(ActiveLearner):
                                         )
         if self.currentTrainCorpus != []:
             trainer = ModelTrainer(DummyModel, self.currentTrainCorpus)
-            trainer.train(base_path=f'resources/taggers/DummyModel{s}',  # path to store the model artifacts
+            trainer.train(base_path=f'resources/taggers/DummyModel',  # path to store the model artifacts
                           learning_rate=self.learning_rate,  # use very small learning rate
                           mini_batch_size=self.mini_batch_size,
                           mini_batch_chunk_size=self.mini_batch_chunk_size,  # optionally set this if transformer is too much for your machine
