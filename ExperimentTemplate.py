@@ -8,10 +8,10 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_CoreSet_noseedset_1.txt'
-filename_model = 'resources/taggers/CoreSet1'
-filename_model2 = 'resources/taggers/CoreSet1'
-device = 'cuda:1'
+filename_results = 'results_CoreSet_noseedset_2.txt'
+filename_model = 'resources/taggers/CoreSet2'
+filename_model2 = 'resources/taggers/CoreSet2'
+device = 'cuda:2'
 SeedSet = False
 shuffle = True
 Exp = 3  #1,2 oder 3
