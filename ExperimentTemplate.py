@@ -8,7 +8,7 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_CoreSet_noseedset_2.txt'
+filename_results = 'results_CoreSet_noseedset_3.txt'
 filename_model = 'resources/taggers/CoreSet2'
 filename_model2 = 'resources/taggers/CoreSet2'
 device = 'cuda:2'
