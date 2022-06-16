@@ -8,7 +8,7 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ExpGrad_moreRuns.txt'
+filename_results = 'results_ConfSet_moreRuns.txt'
 filename_model = 'resources/taggers/Random'
 filename_model2 = 'resources/taggers/ConfScores'
 device = 'cuda:1'
