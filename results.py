@@ -80,10 +80,10 @@ for i in range(12):
     SeedActiveAvg.append((Averages['ConfScor']['seed'][i]+Averages['CoreSet']['seed'][i]+Averages['ExpGrad']['seed'][i])/3)
 
 from matplotlib import pyplot as plt
-plt.plot(range(11), Averages['Rand']['noseed'], label = 'Average Random without seed')
-plt.plot(range(11), Results['Rand']['Exp1noseed'], label = 'Random run 1 without seed')
-plt.plot(range(11), Results['Rand']['Exp2noseed'], label = 'Random run 2 without seed')
-plt.plot(range(11), Results['Rand']['Exp3noseed'], label = 'Random run 3 without seed')
+plt.plot(range(12), Averages['Rand']['seed'], label = 'Average Random with seed')
+plt.plot(range(12), Results['Rand']['Exp1seed'], label = 'Random run 1 with seed')
+plt.plot(range(12), Results['Rand']['Exp2seed'], label = 'Random run 2 with seed')
+plt.plot(range(12), Results['Rand']['Exp3seed'], label = 'Random run 3 with seed')
 plt.legend()
 plt.show()
 
