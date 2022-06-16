@@ -8,14 +8,14 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScoreWithTrainData.txt'
-filename_model = 'resources/taggers/Random5'
-filename_model2 = 'resources/taggers/ConfScore5'
-device = 'cuda:0'
+filename_results = 'results_ExpGradWithTrainData.txt'
+filename_model = 'resources/taggers/ExpGrad5'
+filename_model2 = 'resources/taggers/ExpGrad5'
+device = 'cuda:2'
 SeedSet = True
 shuffle = True
 
-Exp = 1  #1,2 oder 3
+Exp = 2  #1,2 oder 3
 
 def write(name, contents, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
@@ -89,7 +89,7 @@ elif Exp == 3:
     lines.append('CoreSet Accuracy:')
     lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
 
-write('results.txt', lines, Random, alg2lol, ConfidenceScores)
+write('results.txt', lines, ExpectedGradientLength, alg2lol, '')
 
 if SeedSet:
     if Exp == 1:
@@ -122,7 +122,7 @@ if SeedSet:
     elif Exp == 3:
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines, Random, alg2lol, ConfidenceScores)
+    write('results.txt', lines, ExpectedGradientLength, alg2lol, '')
 
 for i in range(10):
     if Exp == 1:
@@ -159,5 +159,5 @@ for i in range(10):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines, Random, alg2lol, ConfidenceScores)
+    write('results.txt', lines, ExpectedGradientLength, alg2lol, '')
     TrainSetSize = 50
