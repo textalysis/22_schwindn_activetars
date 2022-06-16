@@ -22,11 +22,11 @@ def write(name, contents, alg1, alg2lol, alg2):
         f.write('\n'.join(contents))
         f.write('\n'+'Alg1 TrainDATA:')
         for data in alg1.currentTrainCorpus.train:
-            f.write('\n'+data)
+            f.write('\n'+str(data))
         if alg2lol:
             f.write('\n' + 'Alg2 TrainDATA:')
             for data in alg2.currentTrainCorpus.train:
-                f.write('\n' + data)
+                f.write('\n' + str(data))
 
 flair.device = torch.device(device)
 
