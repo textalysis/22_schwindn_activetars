@@ -8,17 +8,25 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ExpGrad_moreRuns_really.txt'
-filename_model = 'resources/taggers/ExpGrad2'
-filename_model2 = 'resources/taggers/ExpGrad2'
-device = 'cuda:2'
-SeedSet = False
+filename_results = 'results_ConfScoreWithTrainData.txt'
+filename_model = 'resources/taggers/Random5'
+filename_model2 = 'resources/taggers/ConfScore5'
+device = 'cuda:0'
+SeedSet = True
 shuffle = True
-Exp = 2  #1,2 oder 3
 
-def write(name, contents):
+Exp = 1  #1,2 oder 3
+
+def write(name, contents, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
+        f.write('\n'+'Alg1 TrainDATA:')
+        for data in alg1.currentTrainCorpus.train:
+            f.write('\n'+data)
+        if alg2lol:
+            f.write('\n' + 'Alg2 TrainDATA:')
+            for data in alg2.currentTrainCorpus.train:
+                f.write('\n' + data)
 
 flair.device = torch.device(device)
 
@@ -27,10 +35,13 @@ lines = []
 if Exp == 1:
     TARS_Random = TARSClassifier.load('tars-base')
     TARS_ConfidenceScores = TARSClassifier.load('tars-base')
+    alg2lol = True
 elif Exp == 2:
     TARS_ExpectedGradientLength = TARSClassifier.load('tars-base')
+    alg2lol = False
 elif Exp == 3:
     TARS_CoreSet = TARSClassifier.load('tars-base')
+    alg2lol = False
 
 #Initialize Corpora
 sample_value = 1
@@ -78,7 +89,7 @@ elif Exp == 3:
     lines.append('CoreSet Accuracy:')
     lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
 
-write('results.txt', lines)
+write('results.txt', lines, Random, alg2lol, ConfidenceScores)
 
 if SeedSet:
     if Exp == 1:
@@ -111,7 +122,7 @@ if SeedSet:
     elif Exp == 3:
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines)
+    write('results.txt', lines, Random, alg2lol, ConfidenceScores)
 
 for i in range(10):
     if Exp == 1:
@@ -148,5 +159,5 @@ for i in range(10):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines)
+    write('results.txt', lines, Random, alg2lol, ConfidenceScores)
     TrainSetSize = 50
