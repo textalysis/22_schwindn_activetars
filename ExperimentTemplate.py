@@ -89,7 +89,7 @@ elif Exp == 3:
     lines.append('CoreSet Accuracy:')
     lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
 
-write('results.txt', lines, CoreSet, alg2lol, '')
+#write('results.txt', lines, CoreSet, alg2lol, '')
 
 if SeedSet:
     if Exp == 1:
