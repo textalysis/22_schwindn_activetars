@@ -8,11 +8,11 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ExpGradMoreTrainData2.txt'
-filename_model = 'resources/taggers/ExpGrad8'
-filename_model2 = 'resources/taggers/ExpGrad8'
-device = 'cuda:1'
-SeedSet = False
+filename_results = 'results_ExpGradTrainDataNew.txt'
+filename_model = 'resources/taggers/ExpGrad9'
+filename_model2 = 'resources/taggers/ExpGrad9'
+device = 'cuda:2'
+SeedSet = True
 shuffle = True
 
 Exp = 2  #1,2 oder 3
@@ -66,14 +66,18 @@ TrainSetSize = 50
 if Exp == 1:
     BaseAccuracy1 = Random.evaluateModel()
     RandomAccuracy_seed = [BaseAccuracy1]
+    Training_Data_Random = []
     BaseAccuracy2 = ConfidenceScores.evaluateModel()
     ConfidenceScoresAccuracy_seed = [BaseAccuracy2]
+    Training_Data_ConfidenceScores = []
 elif Exp == 2:
     BaseAccuracy = ExpectedGradientLength.evaluateModel()
     ExpectedGradientLengthAccuracy_seed = [BaseAccuracy]
+    Training_Data_ExpectedGradientLength = []
 elif Exp == 3:
     BaseAccuracy = CoreSet.evaluateModel()
     CoreSetAccuracy_seed = [BaseAccuracy]
+    Training_Data_CoreSet = []
 
 
 lines.append('Initialized Models:')
@@ -93,20 +97,20 @@ elif Exp == 3:
 
 if SeedSet:
     if Exp == 1:
-        Random.setSeedSet()
+        corpusRandom = Random.setSeedSet()
         Random.printCurrentTrainingData()
-        ConfidenceScores.setSeedSet()
+        corpusConfidenceScores = ConfidenceScores.setSeedSet()
         ConfidenceScores.printCurrentTrainingData()
         Random.trainTARS(filename_model)
         ConfidenceScores.trainTARS(filename_model2)
         RandomAccuracy_seed.append(Random.evaluateModel())
         ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
     elif Exp == 2:
-        ExpectedGradientLength.setSeedSet()
+        corpusExpectedGradientLength = ExpectedGradientLength.setSeedSet()
         ExpectedGradientLength.trainTARS(filename_model)
         ExpectedGradientLengthAccuracy_seed.append(ExpectedGradientLength.evaluateModel())
     elif Exp == 3:
-        CoreSet.setSeedSet()
+        corpusCoreSet = CoreSet.setSeedSet()
         CoreSet.trainTARS(filename_model)
         CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
 
@@ -114,22 +118,34 @@ if SeedSet:
     if Exp == 1:
         lines.append('Random Accuracy:')
         lines.append(', '.join(str(e) for e in RandomAccuracy_seed))
+        lines.append('Random Train Data:')
+        for data in corpusRandom.train:
+            lines.append(str(data))
         lines.append('ConfidenceScores Accuracy:')
         lines.append(', '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
+        lines.append('ConfidenceScores Train Data:')
+        for data in corpusConfidenceScores.train:
+            lines.append(str(data))
     elif Exp == 2:
         lines.append('ExpectedGradientLength Accuracy:')
         lines.append(', '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
+        lines.append('ExpectedGradientLength Train Data:')
+        for data in corpusExpectedGradientLength.train:
+            lines.append(str(data))
     elif Exp == 3:
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
+        lines.append('CoreSet Train Data:')
+        for data in corpusCoreSet.train:
+            lines.append(str(data))
     write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
 
-for i in range(20):
+for i in range(10):
     if Exp == 1:
-        Random.SelectData(TrainSetSize)
+        corpusRandom = Random.SelectData(TrainSetSize)
         Random.trainTARS(path = filename_model)
         RandomAccuracy_seed.append(Random.evaluateModel())
-        ConfidenceScores.SelectData(TrainSetSize)
+        corpusConfidenceScores = ConfidenceScores.SelectData(TrainSetSize)
         ConfidenceScores.trainTARS(path = filename_model2)
         ConfidenceScoresAccuracy_seed.append(ConfidenceScores.evaluateModel())
         print('Random Accuracy:')
@@ -139,10 +155,16 @@ for i in range(20):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('Random Accuracy:')
         lines.append(', '.join(str(e) for e in RandomAccuracy_seed))
+        lines.append('Random Train Data:')
+        for data in corpusRandom.train:
+            lines.append(str(data))
         lines.append('ConfidenceScores Accuracy:')
         lines.append(', '.join(str(e) for e in ConfidenceScoresAccuracy_seed))
+        lines.append('ConfidenceScores Train Data:')
+        for data in corpusConfidenceScores.train:
+            lines.append(str(data))
     elif Exp == 2:
-        ExpectedGradientLength.SelectData(TrainSetSize)
+        corpusExpectedGradientLength = ExpectedGradientLength.SelectData(TrainSetSize)
         ExpectedGradientLength.trainTARS(path = filename_model)
         ExpectedGradientLengthAccuracy_seed.append(ExpectedGradientLength.evaluateModel())
         print('ExpectedGradientLength Accuracy:')
@@ -150,8 +172,11 @@ for i in range(20):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('ExpectedGradientLength Accuracy:')
         lines.append(', '.join(str(e) for e in ExpectedGradientLengthAccuracy_seed))
+        lines.append('ExpectedGradientLength Train Data:')
+        for data in corpusExpectedGradientLength.train:
+            lines.append(str(data))
     elif Exp == 3:
-        CoreSet.SelectData(TrainSetSize)
+        corpusCoreSet = CoreSet.SelectData(TrainSetSize)
         CoreSet.trainTARS(path = filename_model)
         CoreSetAccuracy_seed.append(CoreSet.evaluateModel())
         print('CoreSet Accuracy:')
@@ -159,5 +184,8 @@ for i in range(20):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
+        lines.append('CoreSet Train Data:')
+        for data in corpusCoreSet.train:
+            lines.append(str(data))
     write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
     TrainSetSize = 50

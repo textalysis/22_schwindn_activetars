@@ -31,8 +31,8 @@ class CoreSet(ActiveLearner):
         startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
         SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
         self.UsedIndices.extend(SelectedIndices)
-
-        return self.downsampleCorpus(IndicesToKeep = self.UsedIndices)
+        self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
+        return self.downsampleCorpusEval(IndicesToKeep=self.UsedIndices)
 
     def KCenterGreedy(self, DistanceMatrix, StartPoint, NumberOfElements):
         chosenDataPoints = [StartPoint]

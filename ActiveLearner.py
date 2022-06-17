@@ -78,6 +78,23 @@ class ActiveLearner:
         self.currentTrainCorpus = downsampledCorpus
         return downsampledCorpus
 
+    def downsampleCorpusEval(
+        self,
+        IndicesToKeep: list = [],
+        DownsampleTrainSet = True,
+        DownsampleDevSet = True,
+        DownsampleTestSet = True,
+        ):
+        downsampledCorpus = copy.deepcopy(self.basecorpus)
+        if DownsampleTrainSet and downsampledCorpus._train is not None:
+            downsampledCorpus._train = self.splitDataset(downsampledCorpus._train, IndicesToKeep)
+        if DownsampleDevSet and downsampledCorpus._train is not None:
+            downsampledCorpus._dev = downsampledCorpus._downsample_to_proportion(downsampledCorpus._dev, 0.1*(len(IndicesToKeep))/_len_dataset(downsampledCorpus._dev))
+        if DownsampleTestSet and downsampledCorpus._train is not None:
+            downsampledCorpus._test = downsampledCorpus._downsample_to_proportion(downsampledCorpus._test, 0.1 * (len(IndicesToKeep)) / _len_dataset(downsampledCorpus._test))
+        #self.currentTrainCorpus = downsampledCorpus
+        return downsampledCorpus
+
     #Splits a Dataset into two, First Dataset includes all data with indices in IndicesToKeep, second Dataset all the others
     def splitDataset(
         self,
