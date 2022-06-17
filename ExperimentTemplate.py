@@ -8,7 +8,7 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ExpGradMoreTrainData.txt'
+filename_results = 'results_ExpGradMoreTrainData2.txt'
 filename_model = 'resources/taggers/ExpGrad8'
 filename_model2 = 'resources/taggers/ExpGrad8'
 device = 'cuda:1'
