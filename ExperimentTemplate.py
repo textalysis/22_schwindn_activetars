@@ -11,7 +11,7 @@ import CoreSet as Core
 filename_results = 'results_ConfScoreLonger.txt'
 filename_model = 'resources/taggers/ConfScore10'
 filename_model2 = 'resources/taggers/ConfScore10'
-device = 'cuda:2'
+device = 'cuda:1'
 SeedSet = True
 shuffle = True
 
