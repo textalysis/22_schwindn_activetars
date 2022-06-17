@@ -8,25 +8,25 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ExpGradWithTrainData.txt'
-filename_model = 'resources/taggers/ExpGrad7'
-filename_model2 = 'resources/taggers/ExpGrad7'
-device = 'cuda:0'
-SeedSet = True
+filename_results = 'results_ExpGradMoreTrainData.txt'
+filename_model = 'resources/taggers/ExpGrad8'
+filename_model2 = 'resources/taggers/ExpGrad8'
+device = 'cuda:1'
+SeedSet = False
 shuffle = True
 
 Exp = 2  #1,2 oder 3
 
-def write(name, contents, alg1, alg2lol, alg2):
+def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
         f.write('\n'.join(contents))
-        f.write('\n'+'Alg1 TrainDATA:')
-        for data in alg1.currentTrainCorpus.train:
-            f.write('\n'+str(data))
-        if alg2lol:
-            f.write('\n' + 'Alg2 TrainDATA:')
-            for data in alg2.currentTrainCorpus.train:
-                f.write('\n' + str(data))
+        #f.write('\n'+'Alg1 TrainDATA:')
+        #for data in alg1.currentTrainCorpus.train:
+        #    f.write('\n'+str(data))
+        #if alg2lol:
+        #    f.write('\n' + 'Alg2 TrainDATA:')
+        #    for data in alg2.currentTrainCorpus.train:
+        #        f.write('\n' + str(data))
 
 flair.device = torch.device(device)
 
@@ -122,9 +122,9 @@ if SeedSet:
     elif Exp == 3:
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines, ExpectedGradientLength, alg2lol, '')
+    write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
 
-for i in range(10):
+for i in range(20):
     if Exp == 1:
         Random.SelectData(TrainSetSize)
         Random.trainTARS(path = filename_model)
@@ -159,5 +159,5 @@ for i in range(10):
         lines.append(f'Ran {i}th active learning step:')
         lines.append('CoreSet Accuracy:')
         lines.append(', '.join(str(e) for e in CoreSetAccuracy_seed))
-    write('results.txt', lines, ExpectedGradientLength, alg2lol, '')
+    write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
     TrainSetSize = 50
