@@ -8,9 +8,9 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScoreTrainDataNew.txt'
-filename_model = 'resources/taggers/ConfScore9'
-filename_model2 = 'resources/taggers/ConfScore9'
+filename_results = 'results_ConfScoreLonger.txt'
+filename_model = 'resources/taggers/ConfScore10'
+filename_model2 = 'resources/taggers/ConfScore10'
 device = 'cuda:2'
 SeedSet = True
 shuffle = True
@@ -140,7 +140,7 @@ if SeedSet:
             lines.append(str(data))
     write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
 
-for i in range(10):
+for i in range(20):
     if Exp == 1:
         corpusRandom = Random.SelectData(TrainSetSize)
         Random.trainTARS(path = filename_model)
