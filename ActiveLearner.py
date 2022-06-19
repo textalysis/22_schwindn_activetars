@@ -134,7 +134,8 @@ class ActiveLearner:
         selectableIndices = [i for i in list(range(len(self.basecorpus.train))) if i not in self.UsedIndices]
         randomIndices = random.sample(selectableIndices, NumberOfElements)
         self.UsedIndices.extend(randomIndices)
-        return self.downsampleCorpus(IndicesToKeep = self.UsedIndices)
+        self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
+        return self.downsampleCorpusEval(IndicesToKeep = randomIndices)
 
     #Prints the data that is selected by the active learning strategy
     def printCurrentTrainingData(self):
