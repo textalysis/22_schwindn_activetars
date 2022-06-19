@@ -8,14 +8,14 @@ import ExpectedGradientLength as Expe
 import CoreSet as Core
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScoreLonger.txt'
-filename_model = 'resources/taggers/ConfScore10'
-filename_model2 = 'resources/taggers/ConfScore10'
-device = 'cuda:1'
+filename_results = 'results_CoreSetLonger.txt'
+filename_model = 'resources/taggers/CoreSet10'
+filename_model2 = 'resources/taggers/CoreSet0'
+device = 'cuda:0'
 SeedSet = True
 shuffle = True
 
-Exp = 1  #1,2 oder 3
+Exp = 3  #1,2 oder 3
 
 def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
@@ -140,7 +140,7 @@ if SeedSet:
             lines.append(str(data))
     write('results.txt', lines)#, ExpectedGradientLength, alg2lol, '')
 
-for i in range(20):
+for i in range(10):
     if Exp == 1:
         corpusRandom = Random.SelectData(TrainSetSize)
         Random.trainTARS(path = filename_model)
