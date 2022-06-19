@@ -11,7 +11,7 @@ import CoreSet as Core
 filename_results = 'results_CoreSetTrainData.txt'
 filename_model = 'resources/taggers/CoreSet10'
 filename_model2 = 'resources/taggers/CoreSet0'
-device = 'cuda:1'
+device = 'cuda:0'
 SeedSet = True
 shuffle = True
 
