@@ -71,7 +71,7 @@ class ExpectedGradientLength(ActiveLearner):
         SelectedIndices = [i[0] for i in IndexAndGradientTupleList_sorted[:NumberOfElements]]
         self.UsedIndices.extend(SelectedIndices)
         self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
-        return self.downsampleCorpusEval(IndicesToKeep=self.UsedIndices)
+        return self.downsampleCorpusEval(IndicesToKeep=SelectedIndices)
 
 
 

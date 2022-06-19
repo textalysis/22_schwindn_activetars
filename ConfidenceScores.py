@@ -29,6 +29,6 @@ class ConfidenceScores(ActiveLearner):
         self.UsedIndices.extend(SelectedIndices)
         self.TARS.train()
         self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
-        return self.downsampleCorpusEval(IndicesToKeep = self.UsedIndices)
+        return self.downsampleCorpusEval(IndicesToKeep = SelectedIndices)
 
 
