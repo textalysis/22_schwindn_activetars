@@ -9,8 +9,8 @@ import CoreSet as Core
 
 #flair.set_seed(100)
 filename_results = 'results_ExpGrad_WithTrainDataFinal!!.txt'
-filename_model = 'resources/taggers/Exxe'
-filename_model2 = 'resources/taggers/Exxe'
+filename_model = 'resources/taggers/ExpGrad5'
+filename_model2 = 'resources/taggers/ExpGrd5'
 device = 'cuda:1'
 SeedSet = True
 shuffle = True
