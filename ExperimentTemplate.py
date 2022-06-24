@@ -84,12 +84,12 @@ elif Exp == 3:
                                                )
 #Initialize ActiveLearners
 if Exp == 1:
-    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle)
-    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores, shuffle = shuffle)
+    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle, LabelType = 'topic')
+    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores, shuffle = shuffle,LabelType = 'topic')
 elif Exp == 2:
-    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle)
+    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle,LabelType = 'topic')
 elif Exp == 3:
-    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle)
+    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = 'topic')
 
 TrainSetSize = 50
 if Exp == 1:
