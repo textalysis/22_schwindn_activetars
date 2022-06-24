@@ -11,11 +11,11 @@ from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
 LabelType = 'topic'
-filename_results = 'results_ConfScore_Stackoverflow_noseedset_1.txt'
-filename_model = 'resources/taggers/Random10'
-filename_model2 = 'resources/taggers/ConfScore10'
-device = 'cuda:0'
-SeedSet = False
+filename_results = 'results_ConfScore_Stackoverflow_seedset_2.txt'
+filename_model = 'resources/taggers/Random2'
+filename_model2 = 'resources/taggers/ConfScore2'
+device = 'cuda:1'
+SeedSet = True
 shuffle = True
 
 Exp = 1  #1,2 oder 3
