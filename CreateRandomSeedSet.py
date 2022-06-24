@@ -4,6 +4,8 @@ from flair.models import TARSClassifier
 import Random as Rand
 #TARS_Random = TARSClassifier.load('tars-base')
 TREC_Random = flair.datasets.STACKOVERFLOW().downsample(0.5)
+print(TREC_Random)
+print(len([data for data in TREC_Random.train]))
 #Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random)
 path = '/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow'
 with open(path+'/trainlol.txt', 'w') as f:
