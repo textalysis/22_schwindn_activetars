@@ -1,21 +1,23 @@
 import flair, torch
 import flair.datasets
 from flair.models import TARSClassifier
-from Definitions import label_name_map_50
+from Definitions import label_name_map_50,label_name_map_stackoverflow
 import Random as Rand
 import ConfidenceScores as Conf
 import ExpectedGradientLength as Expe
 import CoreSet as Core
+from flair.data import Corpus
+from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-filename_results = 'results_CoreSet_WithTrainDataFinallonger.txt'
-filename_model = 'resources/taggers/CoreSet1'
-filename_model2 = 'resources/taggers/CoreSet1'
-device = 'cuda:2'
+filename_results = 'results_ConfScores_Stackoverflow_seedset_1.txt'
+filename_model = 'resources/taggers/ConfScores'
+filename_model2 = 'resources/taggers/Random'
+device = 'cuda:0'
 SeedSet = True
 shuffle = True
 
-Exp = 3  #1,2 oder 3
+Exp = 1  #1,2 oder 3
 
 def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
@@ -46,13 +48,40 @@ elif Exp == 3:
 #Initialize Corpora
 sample_value = 1
 if Exp == 1:
-    TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
-    TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
+    #TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
+    #TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
+    TREC_Random: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+                                                 test_file='test.txt',
+                                                 dev_file='dev.txt',
+                                                 train_file='train.txt',
+                                                 label_type='topic',
+                                                 label_name_map=label_name_map_stackoverflow,
+                                                 )
+    TREC_ConfidenceScores: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+                                               test_file='test.txt',
+                                               dev_file='dev.txt',
+                                               train_file='train.txt',
+                                               label_type='topic',
+                                               label_name_map=label_name_map_stackoverflow,
+                                               )
 elif Exp ==2:
-    TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+    #TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+    TREC_ExpectedGradientLength: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+                                               test_file='test.txt',
+                                               dev_file='dev.txt',
+                                               train_file='train.txt',
+                                               label_type='topic',
+                                               label_name_map=label_name_map_stackoverflow,
+                                               )
 elif Exp == 3:
-    TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-
+    #TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
+    TREC_CoreSet: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+                                               test_file='test.txt',
+                                               dev_file='dev.txt',
+                                               train_file='train.txt',
+                                               label_type='topic',
+                                               label_name_map=label_name_map_stackoverflow,
+                                               )
 #Initialize ActiveLearners
 if Exp == 1:
     Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle)
