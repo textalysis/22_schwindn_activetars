@@ -8,8 +8,8 @@ import torch
 
 #Chooses NumberOfElements Elements according to Core Set algorithm from unused trainingdata in basecorpus
 class CoreSet(ActiveLearner):
-    def __init__(self, corpus: Corpus, TARS: TARSClassifier, device: str = 'cpu', shuffle: bool = True):
-        super().__init__(corpus, TARS, shuffle=shuffle)
+    def __init__(self, corpus: Corpus, TARS: TARSClassifier, LabelType : str = 'class' ,device: str = 'cpu', shuffle: bool = True):
+        super().__init__(corpus, TARS, shuffle=shuffle, LabelType = LabelType)
         self.DistanceMatrix = []
         self.device = device
     def SelectData(self, NumberOfElements: int):

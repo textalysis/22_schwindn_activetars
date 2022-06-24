@@ -10,11 +10,12 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScores_Stackoverflow_noseedset_1.txt'
-filename_model = 'resources/taggers/Random3'
-filename_model2 = 'resources/taggers/ConfScores3'
-device = 'cuda:2'
-SeedSet = False
+LabelType = 'topic'
+filename_results = 'results_CoreSet_Stackoverflow_seedset_1.txt'
+filename_model = 'resources/taggers/CoreSet'
+filename_model2 = 'resources/taggers/CoreSet'
+device = 'cuda:0'
+SeedSet = True
 shuffle = True
 
 Exp = 3  #1,2 oder 3
@@ -84,12 +85,12 @@ elif Exp == 3:
                                                )
 #Initialize ActiveLearners
 if Exp == 1:
-    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle, LabelType = 'topic')
-    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores, shuffle = shuffle,LabelType = 'topic')
+    Random = Rand.Random(corpus = TREC_Random, TARS = TARS_Random, shuffle = shuffle, LabelType = LabelType)
+    ConfidenceScores = Conf.ConfidenceScores(corpus = TREC_ConfidenceScores, TARS = TARS_ConfidenceScores, shuffle = shuffle,LabelType = LabelType)
 elif Exp == 2:
-    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle,LabelType = 'topic')
+    ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle,LabelType = LabelType)
 elif Exp == 3:
-    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = 'topic')
+    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = LabelType)
 
 TrainSetSize = 50
 if Exp == 1:
