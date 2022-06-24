@@ -10,14 +10,14 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-filename_results = 'results_ConfScores_Stackoverflow_seedset_1.txt'
-filename_model = 'resources/taggers/ConfScores'
-filename_model2 = 'resources/taggers/Random'
-device = 'cuda:0'
+filename_results = 'results_ExpGrad_Stackoverflow_seedset_1.txt'
+filename_model = 'resources/taggers/ExpGrad'
+filename_model2 = 'resources/taggers/ExpGrad'
+device = 'cuda:1'
 SeedSet = True
 shuffle = True
 
-Exp = 1  #1,2 oder 3
+Exp = 2  #1,2 oder 3
 
 def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
@@ -193,7 +193,7 @@ for i in range(10):
         for data in corpusConfidenceScores.train:
             lines.append(str(data))
     elif Exp == 2:
-        corpusExpectedGradientLength = ExpectedGradientLength.SelectData(TrainSetSize)
+        corpusExpectedGradientLength = ExpectedGradientLength.SelectData(TrainSetSize,filename_model)
         ExpectedGradientLength.trainTARS(path = filename_model)
         ExpectedGradientLengthAccuracy_seed.append(ExpectedGradientLength.evaluateModel())
         print('ExpectedGradientLength Accuracy:')
