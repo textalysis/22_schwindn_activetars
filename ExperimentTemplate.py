@@ -11,14 +11,14 @@ from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
 LabelType = 'topic'
-filename_results = 'results_ExpGrad_Stackoverflow_noseedset_3.txt'
-filename_model = 'resources/taggers/ExpGradNo3'
-filename_model2 = 'resources/taggers/ExpGradNo3'
-device = 'cuda:0'
+filename_results = 'results_ConfScore_Stackoverflow_seedset_3.txt'
+filename_model = 'resources/taggers/ExpGr'
+filename_model2 = 'resources/taggers/raGr'
+device = 'cuda:1'
 SeedSet = False
 shuffle = True
 
-Exp = 2  #1,2 oder 3
+Exp = 1  #1,2 oder 3
 
 def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
