@@ -11,9 +11,9 @@ from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
 LabelType = 'topic'
-filename_results = 'results_ExpGrad_Stackoverflow_noseedset_1.txt'
-filename_model = 'resources/taggers/ExpGrad'
-filename_model2 = 'resources/taggers/ExpGrad'
+filename_results = 'results_ExpGrad_Stackoverflow_noseedset_2.txt'
+filename_model = 'resources/taggers/ExpGrad1'
+filename_model2 = 'resources/taggers/ExpGrad1'
 device = 'cuda:1'
 SeedSet = False
 shuffle = True
