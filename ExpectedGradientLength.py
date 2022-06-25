@@ -27,7 +27,11 @@ class ExpectedGradientLength(ActiveLearner):
                 num_workers=None,
                 sampler=None,
             )
-        DummyModel = TARSClassifier.load(filename+'/best-model.pt')
+        try:
+            DummyModel = TARSClassifier.load(filename+'/best-model.pt')
+        except:
+            DummyModel = TARSClassifier.load('tars-base')
+
         DummyModel.add_and_switch_to_new_task(task_name=self.task,
                                         label_dictionary=self.LabelDict,
                                         label_type=self.LabelType,
