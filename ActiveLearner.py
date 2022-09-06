@@ -76,12 +76,12 @@ class ActiveLearner:
                         label.score == max([label.score for label in sentence.labels])]
             try:
                 if maxlabel[0].value != data.labels[0].value or maxlabel == []:
-                    TotalPredictionClasswise[maxlabel] += 1
+                    TotalPredictionClasswise[maxlabel[0].value] += 1
                 else:
-                    AccuratePredictionsClasswise[maxlabel] += 1
-                    TotalPredictionClasswise[maxlabel] += 1
+                    AccuratePredictionsClasswise[maxlabel[0].value] += 1
+                    TotalPredictionClasswise[maxlabel[0].value] += 1
             except:
-                TotalPredictionClasswise[maxlabel] += 1
+                TotalPredictionClasswise[maxlabel[0].value] += 1
         self.TARS.train()
 
         return sum([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])/len([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])
