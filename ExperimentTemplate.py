@@ -11,7 +11,7 @@ from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
 oppositeDirection = True
-LabelType = 'question'
+LabelType = 'topic'
 filename_results = 'results_ExpGrad_TREC_noseedset_NEW1_reversedOrder.txt'
 filename_model = 'resources/taggers/ExpGrad0'
 filename_model2 = 'resources/taggers/ExpGrad0'
