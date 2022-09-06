@@ -82,6 +82,7 @@ class ActiveLearner:
                     TotalPredictionClasswise[maxlabel[0].value] += 1
             except:
                 #TotalPredictionClasswise[maxlabel[0].value] += 1
+                pass
         self.TARS.train()
 
         return sum([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])/len([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])
