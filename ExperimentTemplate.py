@@ -10,9 +10,9 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-oppositeDirection = False
-LabelType = 'topic'
-filename_results = 'results_ExpGrad_Stackoverflow_noseedset_1.txt'
+oppositeDirection = True
+LabelType = 'class'
+filename_results = 'results_ExpGrad_TREC_noseedset_NEW1_reversedOrder.txt'
 filename_model = 'resources/taggers/ExpGrad0'
 filename_model2 = 'resources/taggers/ExpGrad0'
 device = 'cuda:2'
@@ -52,37 +52,37 @@ sample_value = 1
 if Exp == 1:
     #TREC_Random = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
     #TREC_ConfidenceScores = flair.datasets.TREC_50(label_name_map=label_name_map_50)#.downsample(sample_value)
-    TREC_Random: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+    TREC_Random: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/trec_50',
                                                  test_file='test.txt',
                                                  dev_file='dev.txt',
                                                  train_file='train.txt',
                                                  label_type='topic',
-                                                 label_name_map=label_name_map_stackoverflow,
+                                                 label_name_map=label_name_map_50,
                                                  )
-    TREC_ConfidenceScores: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+    TREC_ConfidenceScores: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/trec_50',
                                                test_file='test.txt',
                                                dev_file='dev.txt',
                                                train_file='train.txt',
                                                label_type='topic',
-                                               label_name_map=label_name_map_stackoverflow,
+                                               label_name_map=label_name_map_50,
                                                )
 elif Exp ==2:
     #TREC_ExpectedGradientLength = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-    TREC_ExpectedGradientLength: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+    TREC_ExpectedGradientLength: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/trec_50',
                                                test_file='test.txt',
                                                dev_file='dev.txt',
                                                train_file='train.txt',
                                                label_type='topic',
-                                               label_name_map=label_name_map_stackoverflow,
+                                               label_name_map=label_name_map_50,
                                                )
 elif Exp == 3:
     #TREC_CoreSet = flair.datasets.TREC_50(label_name_map=label_name_map_50).downsample(sample_value)
-    TREC_CoreSet: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/stackoverflow',
+    TREC_CoreSet: Corpus = ClassificationCorpus('/vol/fob-vol7/mi19/schwindn/.flair/datasets/trec_50',
                                                test_file='test.txt',
                                                dev_file='dev.txt',
                                                train_file='train.txt',
                                                label_type='topic',
-                                               label_name_map=label_name_map_stackoverflow,
+                                               label_name_map=label_name_map_50,
                                                )
 #Initialize ActiveLearners
 if Exp == 1:
