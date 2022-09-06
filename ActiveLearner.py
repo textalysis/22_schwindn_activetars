@@ -46,6 +46,7 @@ class ActiveLearner:
         AccuratePredictions = 0
         TotalPredictions = 0
         PredictedSentences = self.classifyCorpus(self.basecorpus.test)
+
         for sentence, data in zip(PredictedSentences, self.basecorpus.test):
             maxlabel = [label for label in sentence.labels if
                         label.score == max([label.score for label in sentence.labels])]
@@ -59,6 +60,31 @@ class ActiveLearner:
                 TotalPredictions += 1
         self.TARS.train()
         return AccuratePredictions / TotalPredictions
+
+    def evaluateModelweighted(self):
+        self.TARS.eval()
+        AccuratePredictionsClasswise = {}
+        TotalPredictionClasswise = {}
+        PredictedSentences = self.classifyCorpus(self.basecorpus.test)
+
+        for label in self.CorpusLabels:
+            AccuratePredictionsClasswise[label] = 0
+            TotalPredictionClasswise[label] = 0
+
+        for sentence, data in zip(PredictedSentences, self.basecorpus.test):
+            maxlabel = [label for label in sentence.labels if
+                        label.score == max([label.score for label in sentence.labels])]
+            try:
+                if maxlabel[0].value != data.labels[0].value or maxlabel == []:
+                    TotalPredictionClasswise[maxlabel] += 1
+                else:
+                    AccuratePredictionsClasswise[maxlabel] += 1
+                    TotalPredictionClasswise[maxlabel] += 1
+            except:
+                TotalPredictionClasswise[maxlabel] += 1
+        self.TARS.train()
+
+        return sum([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])/len([AccuratePredictionsClasswise[label]/TotalPredictionClasswise[label] for label in self.CorpusLabels if TotalPredictionClasswise[label] != 0])
 
     #Downsamples the Corpus to only include data with given indices
     def downsampleCorpus(
@@ -144,6 +170,7 @@ class ActiveLearner:
 
     def setSeedSet(self):
         '''
+        #Seed set for TREC
         RandomSeedIndices_train = [1466, 3676, 4287, 346, 4520, 847, 2974, 1354, 1531, 2538, 2834, 2208, 1321, 4340, 2079, 3770, 3152, 4853, 2811,
          4109, 642, 90, 177, 3710, 3853, 2800, 3171, 4361, 3672, 2401, 705, 2410, 3225, 3172, 4341, 3810, 4108, 474,
          176, 1051, 814, 3821, 4023, 124, 2446, 451, 1223, 2203, 4442, 2372, 1201, 2703, 2312, 3021, 2753, 1200, 2347,
@@ -153,6 +180,7 @@ class ActiveLearner:
         RandomSeedIndices_dev = [322, 529, 485, 73, 382, 440, 502, 131, 411, 460]
         RandomSeedIndices_test = [148, 246, 217, 220, 40, 269, 230, 479, 349, 66]
         '''
+        #Seed set for Stackoverflow
         RandomSeedIndices_train = [1267, 3170, 1615, 4398, 5845, 4247, 4995, 6398, 2968, 3710, 3959, 6969, 5610, 6013, 5317, 1374, 1590, 4257, 5477, 2612, 2551, 145, 6886, 1188, 398, 4743, 5516, 4294, 4358, 2155, 3351, 7039, 26, 4571, 7163, 1628, 6737, 1831, 346, 751, 2047, 5803, 4888, 3627, 7587, 7283, 5912, 1400, 1148, 911, 1918, 7257, 1106, 6924, 6342, 2158, 6156, 3043, 6752, 6175, 4817, 5501, 3125, 58, 7226, 6043, 903, 2761, 3601, 5226, 4794, 7730, 2038, 7822, 2387, 2557, 5295, 3803, 78, 4572, 2250, 159, 6577, 7372, 7829, 136, 699, 4819, 2221, 1351, 2947, 7309, 4654, 3912, 4539, 6162, 1537, 6833, 7053, 4082]
         RandomSeedIndices_dev = [402, 688, 142, 829, 614, 844, 477, 478, 443, 504]
         RandomSeedIndices_test = [159, 481, 216, 782, 977, 788, 916, 387, 261, 22]

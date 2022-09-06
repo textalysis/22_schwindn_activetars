@@ -29,7 +29,7 @@ Results_old = {'Rand':
                 'Exp2noseed': [0.228, 0.31, 0.334, 0.412, 0.616, 0.626, 0.618, 0.56, 0.5, 0.492, 0.644],
                 'Exp3noseed': [0.228, 0.33, 0.37, 0.422, 0.448, 0.454, 0.44, 0.47, 0.468, 0.482, 0.488]  } }
 
-Results = {'Rand':
+Results_TREC = {'Rand':
                {'Exp1seed': [0.228, 0.57, 0.63, 0.712, 0.71, 0.71, 0.668, 0.75, 0.758, 0.752, 0.794, 0.798],
                 'Exp2seed': [0.228, 0.628, 0.61, 0.722, 0.706, 0.754, 0.768, 0.762, 0.796, 0.798, 0.824, 0.828],
                 'Exp3seed': [0.228, 0.67, 0.664, 0.718, 0.738, 0.744, 0.758, 0.74, 0.75, 0.782, 0.81, 0.848],
@@ -58,13 +58,42 @@ Results = {'Rand':
                 'Exp2noseed': [0.228, 0.258, 0.444, 0.44, 0.518, 0.508, 0.642, 0.524, 0.526, 0.606, 0.654],
                 'Exp3noseed': [0.228, 0.314, 0.414, 0.464, 0.496, 0.532, 0.516, 0.556, 0.532, 0.516, 0.59]  } }
 
+Results = {'Rand':
+               {'Exp1seed': [0.035, 0.605, 0.723, 0.728, 0.748, 0.74, 0.759, 0.757, 0.764, 0.762, 0.764, 0.78],
+                'Exp2seed': [0.035, 0.606, 0.683, 0.693, 0.756, 0.754, 0.772, 0.78, 0.777, 0.783, 0.779, 0.787],
+                'Exp3seed': [0.035, 0.423, 0.618, 0.694, 0.711, 0.745, 0.739, 0.757, 0.778, 0.764, 0.788, 0.775],
+                'Exp1noseed': [0.035, 0.329, 0.659, 0.676, 0.726, 0.738, 0.762, 0.769, 0.757, 0.735, 0.77] ,
+                'Exp2noseed': [0.035, 0.302, 0.652, 0.708, 0.727, 0.722, 0.754, 0.757, 0.765, 0.77, 0.759],
+                'Exp3noseed': [0.035, 0.153, 0.641, 0.73, 0.743, 0.712, 0.753, 0.773, 0.77, 0.781, 0.782]  },
+            'ConfScor':
+                {'Exp1seed': [0.035, 0.632, 0.683, 0.679, 0.71, 0.69, 0.701, 0.718, 0.745, 0.761, 0.757, 0.772],
+                'Exp2seed': [0.035, 0.633, 0.612, 0.727, 0.742, 0.749, 0.754, 0.75, 0.767, 0.761, 0.77, 0.784],
+                'Exp3seed': [0.035, 0.461, 0.638, 0.618, 0.654, 0.661, 0.691, 0.731, 0.748, 0.671, 0.736, 0.775],
+                'Exp1noseed': [0.035, 0.33, 0.596, 0.717, 0.712, 0.723, 0.733, 0.732, 0.731, 0.747, 0.748],
+                'Exp2noseed': [0.035, 0.403, 0.625, 0.669, 0.707, 0.707, 0.719, 0.732, 0.722, 0.722, 0.74],
+                'Exp3noseed':  [0.035, 0.379, 0.612, 0.677, 0.674, 0.674, 0.686, 0.741, 0.737, 0.759, 0.758] },
+            'ExpGrad':
+                {'Exp1seed': [0.035, 0.626, 0.705, 0.697, 0.757, 0.755, 0.764, 0.781, 0.777, 0.786, 0.787, 0.619],
+                'Exp2seed': [0.035, 0.638, 0.707, 0.672, 0.722, 0.768, 0.649, 0.77, 0.774, 0.686, 0.674, 0.777],
+                'Exp3seed': [0.035, 0.567, 0.684, 0.733, 0.772, 0.761, 0.759, 0.745, 0.767, 0.782, 0.778, 0.786],
+                'Exp1noseed': [0.035, 0.047, 0.607, 0.715, 0.728, 0.74, 0.766, 0.761, 0.78, 0.787, 0.801],
+                'Exp2noseed': [0.035, 0.29, 0.687, 0.714, 0.733, 0.752, 0.747, 0.759, 0.772, 0.787, 0.785],
+                'Exp3noseed': [0.035, 0.105, 0.629, 0.65, 0.71, 0.744, 0.769, 0.77, 0.765, 0.775, 0.788]   },
+            'CoreSet':
+                {'Exp1seed': [0.035, 0.649, 0.734, 0.748, 0.768, 0.741, 0.765, 0.769, 0.77, 0.763, 0.772, 0.782],
+                'Exp2seed': [0.035, 0.67, 0.702, 0.742, 0.759, 0.75, 0.766, 0.776, 0.677, 0.783, 0.774, 0.77],
+                'Exp3seed': [0.035, 0.679, 0.725, 0.748, 0.764, 0.793, 0.764, 0.767, 0.778, 0.782, 0.771, 0.789],
+                'Exp1noseed': [0.035, 0.262, 0.6, 0.579, 0.73, 0.762, 0.751, 0.77, 0.788, 0.777, 0.767],
+                'Exp2noseed': [0.035, 0.448, 0.535, 0.721, 0.703, 0.755, 0.761, 0.759, 0.771, 0.763, 0.782],
+                'Exp3noseed': [0.035, 0.301, 0.604, 0.713, 0.739, 0.76, 0.752, 0.777, 0.772, 0.777, 0.784]  } }
+
 Averages = {}
 for Alg in ['Rand', 'ConfScor', 'ExpGrad', 'CoreSet']:
     isitseed = {}
     for isSeed in ['seed', 'noseed']:
         list = []
         for i, el in enumerate(Results[Alg][f'Exp1{isSeed}']):
-            list.append((Results[Alg][f'Exp1{isSeed}'][i]+Results[Alg][f'Exp2{isSeed}'][i]+Results[Alg][f'Exp2{isSeed}'][i])/3)
+            list.append(Results[Alg][f'Exp1{isSeed}'][i]/3+Results[Alg][f'Exp2{isSeed}'][i]/3+Results[Alg][f'Exp3{isSeed}'][i]/3)
         isitseed[isSeed] = list
     Averages[Alg] = isitseed
 
@@ -79,12 +108,31 @@ for i in range(11):
 for i in range(12):
     SeedActiveAvg.append((Averages['ConfScor']['seed'][i]+Averages['CoreSet']['seed'][i]+Averages['ExpGrad']['seed'][i])/3)
 
+list_for_seedset = [0,100,150,200,250,300,350,400,450,500,550,600]
+list_for_noseedset = range(0,550,50)
+'''
 from matplotlib import pyplot as plt
-plt.plot(range(12), Averages['Rand']['seed'], label = 'Average Random with seed')
-plt.plot(range(12), Results['Rand']['Exp1seed'], label = 'Random run 1 with seed')
-plt.plot(range(12), Results['Rand']['Exp2seed'], label = 'Random run 2 with seed')
-plt.plot(range(12), Results['Rand']['Exp3seed'], label = 'Random run 3 with seed')
+plt.style.use('dark_background')
+plt.plot(list_for_noseedset,Averages['Rand']['noseed'] , label = 'Random')
+plt.plot(list_for_noseedset, Averages['ConfScor']['noseed'], label = 'Confidence Scores')
+plt.plot(list_for_noseedset, Averages['ExpGrad']['noseed'], label = 'Expected Gradient Length')
+plt.plot(list_for_noseedset, Averages['CoreSet']['noseed'], label = 'Core Set')
+plt.title('Averaged Results for Stack Overflow Dataset without Seedset')
+plt.xlabel('Size Train Set')
+plt.ylabel('Accuracy Test Set')
+
 plt.legend()
 plt.show()
+'''
 
+from matplotlib import pyplot as plt
+plt.style.use('dark_background')
+plt.plot(range(0,550,50),[0.2, 0.4, 0.55, 0.65, 0.72, 0.75, 0.77, 0.79, 0.8, 0.81, 0.81] , label = 'Random')
+plt.plot(range(0,550,50),[0.2, 0.5, 0.65, 0.75, 0.78, 0.79, 0.80, 0.79, 0.81, 0.81, 0.81] , label = 'Active Learning Algorithm')
 
+plt.title('Model Trained with Data selected randomly or by Active Learning Algorithm')
+plt.xlabel('Size Train Set')
+plt.ylabel('Accuracy Test Set')
+
+plt.legend()
+plt.show()

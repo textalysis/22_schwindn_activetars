@@ -7,7 +7,7 @@ from flair.trainers import ModelTrainer
 
 #Chooses NumberOfElements Elements according to Expected Gradient Length algorithm from unused trainingdata in basecorpus
 class ExpectedGradientLength(ActiveLearner):
-    def SelectData(self, NumberOfElements : int, filename : str):
+    def SelectData(self, NumberOfElements : int, filename : str, isOppositeDirection: bool = False):
         ExpectedGradientLenghtForSentence = {}
         DataToIndex = {}
         IndexAndGradientTupleList = []
@@ -58,8 +58,12 @@ class ExpectedGradientLength(ActiveLearner):
         for key in ExpectedGradientLenghtForSentence.keys():
             IndexAndGradientTupleList.append((DataToIndex[key],
                                               ExpectedGradientLenghtForSentence[key]))
-        IndexAndGradientTupleList_sorted = sorted(IndexAndGradientTupleList,
-                                                  key=lambda tup: -tup[1])
+        if isOppositeDirection:
+            IndexAndGradientTupleList_sorted = sorted(IndexAndGradientTupleList,
+                                                  key=lambda tup: tup[1])
+        else:
+            IndexAndGradientTupleList_sorted = sorted(IndexAndGradientTupleList,
+                                                      key=lambda tup: -tup[1])
         IndexAndGradientTupleList_sorted = [i for i in IndexAndGradientTupleList_sorted
                                             if i[0] not in self.UsedIndices]
         SelectedIndices = [i[0] for i in IndexAndGradientTupleList_sorted[:NumberOfElements]]

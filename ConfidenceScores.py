@@ -4,7 +4,7 @@ import numpy as np
 
 #Chooses NumberOfElements Elements according to Confidence Scores algorithm from unused trainingdata in basecorpus
 class ConfidenceScores(ActiveLearner):
-    def SelectData(self, NumberOfElements: int):
+    def SelectData(self, NumberOfElements: int, isOppositeDirection: bool = False):
         self.TARS.eval()
         classifiedCorpus = [Sentence(data.to_plain_string()) for
                             data in self.basecorpus.train]
@@ -20,8 +20,12 @@ class ConfidenceScores(ActiveLearner):
                  for label in sentence.labels])
             SentenceScoresAndIndex.append((entropy, SentenceIndex))
             SentenceIndex += 1
-        SentenceScoresAndIndex_sorted = sorted(SentenceScoresAndIndex,
-                                               key=lambda tup: -tup[0])
+        if isOppositeDirection:
+            SentenceScoresAndIndex_sorted = sorted(SentenceScoresAndIndex,
+                                                   key=lambda tup: tup[0])
+        else:
+            SentenceScoresAndIndex_sorted = sorted(SentenceScoresAndIndex,
+                                                   key=lambda tup: -tup[0])
         SentenceScoresAndIndex_sorted = [i for i in SentenceScoresAndIndex_sorted
                                          if i[1] not in self.UsedIndices]
         Selections = SentenceScoresAndIndex_sorted[:NumberOfElements]
