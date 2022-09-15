@@ -13,25 +13,26 @@ class CoreSet(ActiveLearner):
         self.DistanceMatrix = []
         self.device = device
     def SelectData(self, NumberOfElements: int):
-        PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
-        PossibleTrainData = [Sentence(sentence) for sentence in PossibleTrainData]
-        self.TARS.tars_embeddings.eval()
-        self.TARS.tars_embeddings.embed(PossibleTrainData)
-        self.TARS.tars_embeddings.train()
+        with torch.no_grad():
+            PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
+            PossibleTrainData = [Sentence(sentence) for sentence in PossibleTrainData]
+            self.TARS.tars_embeddings.eval()
+            self.TARS.tars_embeddings.embed(PossibleTrainData)
+            self.TARS.tars_embeddings.train()
 
-        if isinstance(self.TARS.tars_embeddings, TokenEmbeddings):
-            encodings_np = [sentence[0].get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
-        else:
-            encodings_np = [sentence.get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
-        print(len(encodings_np))
-        print(len(encodings_np[0]))
-        encodings_np = torch.tensor(encodings_np,device = self.device)
-        if self.DistanceMatrix == []:
-            self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
-        startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
-        SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
-        self.UsedIndices.extend(SelectedIndices)
-        self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
+            if isinstance(self.TARS.tars_embeddings, TokenEmbeddings):
+                encodings_np = [sentence[0].get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
+            else:
+                encodings_np = [sentence.get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
+            print(len(encodings_np))
+            print(len(encodings_np[0]))
+            encodings_np = torch.tensor(encodings_np,device = self.device)
+            if self.DistanceMatrix == []:
+                self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
+            startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
+            SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
+            self.UsedIndices.extend(SelectedIndices)
+            self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
         return self.downsampleCorpusEval(IndicesToKeep=SelectedIndices)
 
     def KCenterGreedy(self, DistanceMatrix, StartPoint, NumberOfElements):
