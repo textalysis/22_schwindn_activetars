@@ -10,12 +10,13 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
+modeCoreSet = 'kMeans'
 oppositeDirection = False
 LabelType = 'topic'
 filename_results = 'results_CoreSet_TREC_noseedset_NEW1.txt'
-filename_model = 'resources/taggers/CoreSet1'
-filename_model2 = 'resources/taggers/CoreSet1'
-device = 'cuda:0'
+filename_model = 'resources/taggers/CoreSetMeans1'
+filename_model2 = 'resources/taggers/CoreSetMeans1'
+device = 'cuda:1'
 SeedSet = False
 shuffle = True
 
@@ -91,7 +92,7 @@ if Exp == 1:
 elif Exp == 2:
     ExpectedGradientLength = Expe.ExpectedGradientLength(corpus = TREC_ExpectedGradientLength, TARS = TARS_ExpectedGradientLength, shuffle = shuffle,LabelType = LabelType)
 elif Exp == 3:
-    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = LabelType)
+    CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = LabelType, mode = modeCoreSet)
 
 TrainSetSize = 50
 if Exp == 1:

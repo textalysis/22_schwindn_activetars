@@ -5,13 +5,16 @@ import numpy as np
 from flair.embeddings import TokenEmbeddings
 from flair.models import TARSClassifier
 import torch
+from sklearn.cluster import KMeans
+import random
 
 #Chooses NumberOfElements Elements according to Core Set algorithm from unused trainingdata in basecorpus
 class CoreSet(ActiveLearner):
-    def __init__(self, corpus: Corpus, TARS: TARSClassifier, LabelType : str = 'class' ,device: str = 'cpu', shuffle: bool = True):
+    def __init__(self, corpus: Corpus, TARS: TARSClassifier, LabelType : str = 'class' ,device: str = 'cpu', shuffle: bool = True, mode: str = 'kCenter'):
         super().__init__(corpus, TARS, shuffle=shuffle, LabelType = LabelType)
         self.DistanceMatrix = []
         self.device = device
+        self.mode = mode
     def SelectData(self, NumberOfElements: int):
         with torch.no_grad():
             PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
@@ -27,10 +30,12 @@ class CoreSet(ActiveLearner):
             print(len(encodings_np))
             print(len(encodings_np[0]))
             encodings_np = torch.tensor(encodings_np,device = self.device)
-            if self.DistanceMatrix == []:
+            if self.DistanceMatrix == [] and self.mode == 'kcenter':
                 self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
-            startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
-            SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
+                startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
+                SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
+            elif self.mode == 'kMeans':
+                SelectedIndices = self.kMeans(encodings_np, NumberOfElements)
             self.UsedIndices.extend(SelectedIndices)
             self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
         return self.downsampleCorpusEval(IndicesToKeep=SelectedIndices)
@@ -45,3 +50,19 @@ class CoreSet(ActiveLearner):
             chosenDataPoints.append(ValuesForIndices[max(ValuesForIndices.keys())])
             ValuesForIndices = {}
         return chosenDataPoints
+
+    def kMeans(self, EmbeddedVectors, NumberOfElements):
+        EmbeddedVectors = EmbeddedVectors.numpy()
+        kmeans = KMeans(n_clusters=NumberOfElements).fit(EmbeddedVectors)
+        Clusters = {}
+        for number, vector in enumerate(EmbeddedVectors):
+            if kmeans.labels_[number] in Clusters.keys():
+                Clusters[kmeans.labels_[number]].append(number)
+            else:
+                Clusters[kmeans.labels_[number]] = [number]
+        chosenDataPoints = []
+        for cluster in Clusters.values():
+            chosenDataPoints.append(random.choice(cluster))
+
+        return chosenDataPoints
+
