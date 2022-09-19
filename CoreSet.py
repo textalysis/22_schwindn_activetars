@@ -30,7 +30,7 @@ class CoreSet(ActiveLearner):
             print(len(encodings_np))
             print(len(encodings_np[0]))
             encodings_np = torch.tensor(encodings_np,device = self.device)
-            if self.DistanceMatrix == [] and self.mode == 'kcenter':
+            if self.DistanceMatrix == [] and self.mode == 'kCenter':
                 self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
                 startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
                 SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
