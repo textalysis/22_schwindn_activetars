@@ -15,6 +15,7 @@ class CoreSet(ActiveLearner):
         self.DistanceMatrix = []
         self.device = device
         self.mode = mode
+        self.Clusters = {}
     def SelectData(self, NumberOfElements: int):
         with torch.no_grad():
             PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
@@ -32,9 +33,10 @@ class CoreSet(ActiveLearner):
             encodings_np = torch.tensor(encodings_np,device = self.device)
             if self.DistanceMatrix == [] and self.mode == 'kCenter':
                 self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
+            if self.mode == 'kCenter':
                 startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
                 SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
-            elif self.mode == 'kMeans':
+            if self.mode == 'kMeans':
                 SelectedIndices = self.kMeans(encodings_np, NumberOfElements)
             self.UsedIndices.extend(SelectedIndices)
             self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
@@ -52,17 +54,21 @@ class CoreSet(ActiveLearner):
         return chosenDataPoints
 
     def kMeans(self, EmbeddedVectors, NumberOfElements):
-        EmbeddedVectors = EmbeddedVectors.cpu().numpy()
-        kmeans = KMeans(n_clusters=NumberOfElements).fit(EmbeddedVectors)
-        Clusters = {}
-        for number, vector in enumerate(EmbeddedVectors):
-            if kmeans.labels_[number] in Clusters.keys():
-                Clusters[kmeans.labels_[number]].append(number)
-            else:
-                Clusters[kmeans.labels_[number]] = [number]
+        if self.Clusters == {}:
+            EmbeddedVectors = EmbeddedVectors.cpu().numpy()
+            kmeans = KMeans(n_clusters=NumberOfElements).fit(EmbeddedVectors)
+            for number, vector in enumerate(EmbeddedVectors):
+                if kmeans.labels_[number] in self.Clusters.keys():
+                    self.Clusters[kmeans.labels_[number]].append(number)
+                else:
+                    self.Clusters[kmeans.labels_[number]] = [number]
         chosenDataPoints = []
-        for cluster in Clusters.values():
-            chosenDataPoints.append(random.choice(cluster))
+        for cluster in self.Clusters.values():
+            if len([element for element in cluster if element not in self.UsedIndices]) > 1:
+                DatapointsToChooseFrom = [e for e in cluster if e not in self.UsedIndices]
+                chosenDataPoints.append(random.choice(DatapointsToChooseFrom))
+            else:
+                chosenDataPoints.append(random.choice(cluster))
 
         return chosenDataPoints
 
