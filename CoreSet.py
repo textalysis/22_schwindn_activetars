@@ -52,7 +52,7 @@ class CoreSet(ActiveLearner):
         return chosenDataPoints
 
     def kMeans(self, EmbeddedVectors, NumberOfElements):
-        EmbeddedVectors = EmbeddedVectors.numpy()
+        EmbeddedVectors = EmbeddedVectors.cpu().numpy()
         kmeans = KMeans(n_clusters=NumberOfElements).fit(EmbeddedVectors)
         Clusters = {}
         for number, vector in enumerate(EmbeddedVectors):
