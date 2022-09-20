@@ -8,6 +8,7 @@ import torch
 from sklearn.cluster import KMeans
 import random
 
+#TODO safe encodings instead of calculating them every round
 #Chooses NumberOfElements Elements according to Core Set algorithm from unused trainingdata in basecorpus
 class CoreSet(ActiveLearner):
     def __init__(self, corpus: Corpus, TARS: TARSClassifier, LabelType : str = 'class' ,device: str = 'cpu', shuffle: bool = True, mode: str = 'kCenter'):

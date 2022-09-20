@@ -13,9 +13,9 @@ from flair.datasets import ClassificationCorpus
 modeCoreSet = 'kMeans'
 oppositeDirection = False
 LabelType = 'topic'
-filename_results = 'results_CoreSet_TREC_noseedset_NEW2_Means.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
-filename_model = 'resources/taggers/CoreSetMeans1'
-filename_model2 = 'resources/taggers/CoreSetMeans1'
+filename_results = 'results_CoreSet_TREC_noseedset_NEW3_Means.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
+filename_model = 'resources/taggers/CoreSetMeans2'
+filename_model2 = 'resources/taggers/CoreSetMeans2'
 device = 'cuda:2'
 SeedSet = False
 shuffle = True

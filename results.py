@@ -93,7 +93,7 @@ for Alg in ['Rand', 'ConfScor', 'ExpGrad', 'CoreSet']:
     for isSeed in ['seed', 'noseed']:
         list = []
         for i, el in enumerate(Results[Alg][f'Exp1{isSeed}']):
-            list.append(Results[Alg][f'Exp1{isSeed}'][i]/3+Results[Alg][f'Exp2{isSeed}'][i]/3+Results[Alg][f'Exp3{isSeed}'][i]/3)
+            list.append(Results_TREC[Alg][f'Exp1{isSeed}'][i]/3+Results_TREC[Alg][f'Exp2{isSeed}'][i]/3+Results_TREC[Alg][f'Exp3{isSeed}'][i]/3)
         isitseed[isSeed] = list
     Averages[Alg] = isitseed
 
@@ -110,21 +110,19 @@ for i in range(12):
 
 list_for_seedset = [0,100,150,200,250,300,350,400,450,500,550,600]
 list_for_noseedset = range(0,550,50)
-'''
+
 from matplotlib import pyplot as plt
 plt.style.use('dark_background')
 plt.plot(list_for_noseedset,Averages['Rand']['noseed'] , label = 'Random')
-plt.plot(list_for_noseedset, Averages['ConfScor']['noseed'], label = 'Confidence Scores')
-plt.plot(list_for_noseedset, Averages['ExpGrad']['noseed'], label = 'Expected Gradient Length')
-plt.plot(list_for_noseedset, Averages['CoreSet']['noseed'], label = 'Core Set')
+plt.plot(list_for_noseedset, [0.228, 0.45, 0.504, 0.71, 0.686, 0.722, 0.752, 0.552, 0.77, 0.81, 0.776], label = 'k-Means')
 plt.title('Averaged Results for Stack Overflow Dataset without Seedset')
 plt.xlabel('Size Train Set')
 plt.ylabel('Accuracy Test Set')
 
 plt.legend()
 plt.show()
-'''
 
+'''
 from matplotlib import pyplot as plt
 plt.style.use('dark_background')
 plt.plot(range(0,550,50),[0.2, 0.4, 0.55, 0.65, 0.72, 0.75, 0.77, 0.79, 0.8, 0.81, 0.81] , label = 'Random')
@@ -136,3 +134,4 @@ plt.ylabel('Accuracy Test Set')
 
 plt.legend()
 plt.show()
+'''
