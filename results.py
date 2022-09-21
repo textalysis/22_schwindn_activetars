@@ -56,7 +56,14 @@ Results_TREC = {'Rand':
                 'Exp3seed': [0.228, 0.674, 0.652, 0.718, 0.768, 0.698, 0.746, 0.728, 0.762, 0.744, 0.764, 0.786],
                 'Exp1noseed': [0.228, 0.368, 0.386, 0.488, 0.498, 0.502, 0.516, 0.554, 0.538, 0.734, 0.684],
                 'Exp2noseed': [0.228, 0.258, 0.444, 0.44, 0.518, 0.508, 0.642, 0.524, 0.526, 0.606, 0.654],
-                'Exp3noseed': [0.228, 0.314, 0.414, 0.464, 0.496, 0.532, 0.516, 0.556, 0.532, 0.516, 0.59]  } }
+                'Exp3noseed': [0.228, 0.314, 0.414, 0.464, 0.496, 0.532, 0.516, 0.556, 0.532, 0.516, 0.59]  },
+            'CoreSetKMeans' :
+                    { 'Exp1seed': [0.228, 0.648, 0.698, 0.7, 0.53, 0.74, 0.764, 0.758, 0.606, 0.732, 0.804, 0.752],#just a copy, no real data!!!!
+                      'Exp2seed': [0.228, 0.664, 0.7, 0.718, 0.726, 0.67, 0.74, 0.536, 0.782, 0.58, 0.728, 0.782],#just a copy, no real data
+                      'Exp3seed': [0.228, 0.674, 0.652, 0.718, 0.768, 0.698, 0.746, 0.728, 0.762, 0.744, 0.764, 0.786],#just a copy, no real data
+                       'Exp1noseed': [0.228, 0.45, 0.504, 0.71, 0.686, 0.722, 0.752, 0.552, 0.77, 0.81, 0.776],
+                       'Exp2noseed' : [0.228, 0.668, 0.736, 0.664, 0.734, 0.694, 0.758, 0.762, 0.766, 0.776, 0.768],
+                       'Exp3noseed': [0.228, 0.374, 0.562, 0.546, 0.63, 0.5, 0.694, 0.772, 0.724, 0.602, 0.568]}}
 
 Results = {'Rand':
                {'Exp1seed': [0.035, 0.605, 0.723, 0.728, 0.748, 0.74, 0.759, 0.757, 0.764, 0.762, 0.764, 0.78],
@@ -85,14 +92,15 @@ Results = {'Rand':
                 'Exp3seed': [0.035, 0.679, 0.725, 0.748, 0.764, 0.793, 0.764, 0.767, 0.778, 0.782, 0.771, 0.789],
                 'Exp1noseed': [0.035, 0.262, 0.6, 0.579, 0.73, 0.762, 0.751, 0.77, 0.788, 0.777, 0.767],
                 'Exp2noseed': [0.035, 0.448, 0.535, 0.721, 0.703, 0.755, 0.761, 0.759, 0.771, 0.763, 0.782],
-                'Exp3noseed': [0.035, 0.301, 0.604, 0.713, 0.739, 0.76, 0.752, 0.777, 0.772, 0.777, 0.784]  } }
+                'Exp3noseed': [0.035, 0.301, 0.604, 0.713, 0.739, 0.76, 0.752, 0.777, 0.772, 0.777, 0.784]  }
+           }
 
 Averages = {}
-for Alg in ['Rand', 'ConfScor', 'ExpGrad', 'CoreSet']:
+for Alg in ['Rand', 'ConfScor', 'ExpGrad', 'CoreSet','CoreSetKMeans']:
     isitseed = {}
     for isSeed in ['seed', 'noseed']:
         list = []
-        for i, el in enumerate(Results[Alg][f'Exp1{isSeed}']):
+        for i, el in enumerate(Results_TREC[Alg][f'Exp1{isSeed}']):
             list.append(Results_TREC[Alg][f'Exp1{isSeed}'][i]/3+Results_TREC[Alg][f'Exp2{isSeed}'][i]/3+Results_TREC[Alg][f'Exp3{isSeed}'][i]/3)
         isitseed[isSeed] = list
     Averages[Alg] = isitseed
@@ -114,7 +122,7 @@ list_for_noseedset = range(0,550,50)
 from matplotlib import pyplot as plt
 plt.style.use('dark_background')
 plt.plot(list_for_noseedset,Averages['Rand']['noseed'] , label = 'Random')
-plt.plot(list_for_noseedset, [0.228, 0.45, 0.504, 0.71, 0.686, 0.722, 0.752, 0.552, 0.77, 0.81, 0.776], label = 'k-Means')
+plt.plot(list_for_noseedset, Averages['CoreSetKMeans']['noseed'], label = 'k-Means')
 plt.title('Averaged Results for Stack Overflow Dataset without Seedset')
 plt.xlabel('Size Train Set')
 plt.ylabel('Accuracy Test Set')
