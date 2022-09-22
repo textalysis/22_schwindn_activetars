@@ -8,7 +8,6 @@ import torch
 from sklearn.cluster import KMeans
 import random
 
-#TODO safe encodings instead of calculating them every round
 #Chooses NumberOfElements Elements according to Core Set algorithm from unused trainingdata in basecorpus
 class CoreSet(ActiveLearner):
     def __init__(self, corpus: Corpus, TARS: TARSClassifier, LabelType : str = 'class' ,device: str = 'cpu', shuffle: bool = True, mode: str = 'kCenter'):
@@ -17,28 +16,35 @@ class CoreSet(ActiveLearner):
         self.device = device
         self.mode = mode
         self.Clusters = {}
+        self.embeddings = None
     def SelectData(self, NumberOfElements: int):
         with torch.no_grad():
-            PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
-            PossibleTrainData = [Sentence(sentence) for sentence in PossibleTrainData]
-            self.TARS.tars_embeddings.eval()
-            self.TARS.tars_embeddings.embed(PossibleTrainData)
-            self.TARS.tars_embeddings.train()
+            if self.embeddings == None:
+                PossibleTrainData = [data.to_plain_string() for data in self.basecorpus.train]
+                PossibleTrainData = [Sentence(sentence) for sentence in PossibleTrainData]
+                self.TARS.tars_embeddings.eval()
+                self.TARS.tars_embeddings.embed(PossibleTrainData)
+                self.TARS.tars_embeddings.train()
 
-            if isinstance(self.TARS.tars_embeddings, TokenEmbeddings):
-                encodings_np = [sentence[0].get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
-            else:
-                encodings_np = [sentence.get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
-            print(len(encodings_np))
-            print(len(encodings_np[0]))
-            encodings_np = torch.tensor(encodings_np,device = self.device)
+                if isinstance(self.TARS.tars_embeddings, TokenEmbeddings):
+                    encodings_np = [sentence[0].get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
+                else:
+                    encodings_np = [sentence.get_embedding().cpu().detach().numpy() for sentence in PossibleTrainData]
+                print(len(encodings_np))
+                print(len(encodings_np[0]))
+                encodings_np = torch.tensor(encodings_np,device = self.device)
+                self.embeddings = encodings_np
             if self.DistanceMatrix == [] and self.mode == 'kCenter':
-                self.DistanceMatrix = torch.cdist(encodings_np, encodings_np)
+                self.DistanceMatrix = torch.cdist(self.embeddings, self.embeddings)
             if self.mode == 'kCenter':
                 startPoint = min([index for index in range(len(self.basecorpus.train)) if index not in self.UsedIndices])
                 SelectedIndices = self.KCenterGreedy(self.DistanceMatrix, startPoint, NumberOfElements)
             if self.mode == 'kMeans':
-                SelectedIndices = self.kMeans(encodings_np, NumberOfElements)
+                SelectedIndices = self.kMeans(self.embeddings, NumberOfElements)
+            if self.mode == 'weightedRandom':
+                if self.Clusters == {}:
+                    self.kMeans(self.embeddings, NumberOfElements)
+                SelectedIndices = self.RandomWeighted(self.Clusters,  NumberOfElements)
             self.UsedIndices.extend(SelectedIndices)
             self.downsampleCorpus(IndicesToKeep=self.UsedIndices)
         return self.downsampleCorpusEval(IndicesToKeep=SelectedIndices)
@@ -73,3 +79,17 @@ class CoreSet(ActiveLearner):
 
         return chosenDataPoints
 
+    def RandomWeighted(self, Clusters,  NumberOfElements):
+        LenAllClusters = sum([len(cluster) for cluster in Clusters.values()])
+        ProbabilitiesClusters_unnormalized = [(len(cluster)/LenAllClusters)**2 for cluster in Clusters.values()]
+        ProbabilitiesClusters = [probability/sum(ProbabilitiesClusters_unnormalized) for probability in ProbabilitiesClusters_unnormalized]
+        cluster_choices = random.choices(range(len(self.CorpusLabels)), weights=ProbabilitiesClusters, k=NumberOfElements)
+        chosenDataPoints = []
+        for cluster_index in cluster_choices:
+            if len([element for element in Clusters[cluster_index] if element not in self.UsedIndices]) > 1:
+                DatapointsToChooseFrom = [e for e in Clusters[cluster_index] if e not in self.UsedIndices]
+                chosenDataPoints.append(random.choice(DatapointsToChooseFrom))
+            else:
+                chosenDataPoints.append(random.choice(Clusters[cluster_index]))
+
+        return chosenDataPoints

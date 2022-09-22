@@ -120,17 +120,20 @@ list_for_seedset = [0,100,150,200,250,300,350,400,450,500,550,600]
 list_for_noseedset = range(0,550,50)
 accuracy_confscore_reversedorder = [0.228, 0.302, 0.36, 0.468, 0.416, 0.65, 0.51, 0.496, 0.574, 0.622, 0.566]
 accuracy_expgrad_reversedorder = [0.228, 0.314, 0.316, 0.31, 0.322, 0.288, 0.352, 0.326, 0.314, 0.3, 0.322]
-weighted_accuracs_expgrad = [0.2710014277840323, 0.3404802916134591, 0.4932842035884632, 0.6264034220368655, 0.602206216712637, 0.6575820116889828, 0.7154376948109739, 0.7203280760521525, 0.7295299634979416, 0.7106378309787093, 0.804420911139883]
-weighted_accuracy_confscores =
+weighted_accuracy_expgrad = [0.2710014277840323, 0.3404802916134591, 0.4932842035884632, 0.6264034220368655, 0.602206216712637, 0.6575820116889828, 0.7154376948109739, 0.7203280760521525, 0.7295299634979416, 0.7106378309787093, 0.804420911139883]
+unweighted_accuracy_expgrad = [0.228, 0.256, 0.32, 0.458, 0.554, 0.508, 0.664, 0.748, 0.762, 0.778, 0.764]
+#weighted_accuracy_confscores =
 weighted_accuracy_random = [0.2710014277840323, 0.5392596241472701, 0.5566219703762101, 0.5576206224521427, 0.5688735385039891, 0.6916489936698995, 0.6895521216501944, 0.7247785089890353, 0.6676076351113966, 0.7315020910830287, 0.7939013857333632]
-weightes_accuracy_coreset =
+unweighted_accuracy_random = [0.228, 0.554, 0.552, 0.628, 0.684, 0.694, 0.742, 0.756, 0.734, 0.766, 0.796]
+#weightes_accuracy_coreset =
 from matplotlib import pyplot as plt
 #plt.style.use('dark_background')
 #plt.plot(list_for_noseedset,Averages['Rand']['noseed'] , label = 'Random')
 #plt.plot(list_for_noseedset, Averages['CoreSetKMeans']['noseed'], label = 'kMeans')
-plt.plot(list_for_noseedset,Averages['Rand']['noseed'] , label = 'Random')
-plt.plot(list_for_noseedset,accuracy_confscore_reversedorder , label = 'Confidence Scores Reversed Order')
-plt.plot(list_for_noseedset,accuracy_expgrad_reversedorder , label = 'Expected Gradient Length Reversed Order')
+plt.plot(list_for_noseedset,unweighted_accuracy_random , label = 'Random unweighted Accuracy')
+plt.plot(list_for_noseedset,unweighted_accuracy_expgrad , label = 'Exp Grad unweighted Accuracy')
+plt.plot(list_for_noseedset,weighted_accuracy_random , label = 'Random weighted Accuracy')
+plt.plot(list_for_noseedset,weighted_accuracy_expgrad , label = 'Exp Grad weighted Accuracy')
 plt.title('Averaged Results for Reversed Order Conf Score and Exp Grad vs Random')
 plt.xlabel('Size Train Set')
 plt.ylabel('Accuracy Test Set')
