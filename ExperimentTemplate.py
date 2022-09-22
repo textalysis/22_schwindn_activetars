@@ -10,12 +10,13 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-modeCoreSet = 'kMeans'
+TrainSetSize = 50
+modeCoreSet = 'kCenter'
 oppositeDirection = False
 LabelType = 'topic'
-filename_results = 'results_CoreSet_TREC_noseedset_NEW4_Means.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
-filename_model = 'resources/taggers/CoreSetMeans'
-filename_model2 = 'resources/taggers/CoreSetMeans'
+filename_results = 'results_CoreSet_TREC_noseedset_NEW1_Center.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
+filename_model = 'resources/taggers/CoreSetCenter'
+filename_model2 = 'resources/taggers/CoreSetCenter'
 device = 'cuda:2'
 SeedSet = False
 shuffle = True
@@ -94,7 +95,7 @@ elif Exp == 2:
 elif Exp == 3:
     CoreSet = Core.CoreSet(corpus = TREC_CoreSet, TARS = TARS_CoreSet, device = device, shuffle = shuffle,LabelType = LabelType, mode = modeCoreSet)
 
-TrainSetSize = 50
+
 if Exp == 1:
     BaseAccuracy1 = Random.evaluateModel()
     BaseAccuracy1_weighted = Random.evaluateModelweighted()
