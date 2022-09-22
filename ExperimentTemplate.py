@@ -10,11 +10,11 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-TrainSetSize = 50
-modeCoreSet = 'kCenter'
+TrainSetSize = 25
+modeCoreSet = 'kMeans'
 oppositeDirection = False
 LabelType = 'topic'
-filename_results = 'results_CoreSet_TREC_noseedset_NEW1_Center.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
+filename_results = 'results_CoreSet_TREC_noseedset_NEW1_Means_25.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
 filename_model = 'resources/taggers/CoreSetCenter'
 filename_model2 = 'resources/taggers/CoreSetCenter'
 device = 'cuda:2'
