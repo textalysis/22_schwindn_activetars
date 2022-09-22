@@ -10,14 +10,14 @@ from flair.data import Corpus
 from flair.datasets import ClassificationCorpus
 
 #flair.set_seed(100)
-TrainSetSize = 25
+TrainSetSize = 50
 modeCoreSet = 'kMeans'
 oppositeDirection = False
 LabelType = 'topic'
-filename_results = 'results_ConfScore_TREC_noseedset_NEW1_25.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
-filename_model = 'resources/taggers/Random'
-filename_model2 = 'resources/taggers/ConfScore'
-device = 'cuda:2'
+filename_results = 'results_ConfScore_TREC_noseedset_NEW1.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
+filename_model = 'resources/taggers/Randomee'
+filename_model2 = 'resources/taggers/ConfScoreee'
+device = 'cuda:0'
 SeedSet = False
 shuffle = True
 
