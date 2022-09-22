@@ -15,13 +15,13 @@ modeCoreSet = 'kMeans'
 oppositeDirection = False
 LabelType = 'topic'
 filename_results = 'results_CoreSet_TREC_noseedset_NEW1_Means_25.txt' #'results_CoreSet_TREC_noseedset_NEW1.txt' is kCenter
-filename_model = 'resources/taggers/CoreSetMeans25'
-filename_model2 = 'resources/taggers/CoreSetMeans25'
+filename_model = 'resources/taggers/Random'
+filename_model2 = 'resources/taggers/ConfScore'
 device = 'cuda:2'
 SeedSet = False
 shuffle = True
 
-Exp = 3 #1,2 oder 3
+Exp = 1 #1,2 oder 3
 
 def write(name, contents):#, alg1, alg2lol, alg2):
     with open(filename_results, 'w', encoding='utf-8') as f:
